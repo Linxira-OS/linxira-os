@@ -1,28 +1,34 @@
 # Linxira OS
 
-> ⚠️ **非关联声明**：Linxira OS **与 LinxISA (Linx Instruction Set Architecture)、LinxISA/linx-isa 硬件架构项目完全无关**。名字中的 "Linx" 是巧合。这是一个独立的 Linux 衍生发行版，不涉及任何自定义 CPU 指令集或硬件架构。
+> ⚠️ **非关联声明**：Linxira OS **与 LinxISA (Linx Instruction Set Architecture)、LinxISA/linx-isa 硬件架构项目完全无关**。名字中的 "Linx" 是巧合。这是一个独立的 Linux 发行版，不涉及任何自定义 CPU 指令集或硬件架构。
 
 ## 中文
 
-**Linxira OS 是一个独立的科研与 AI 工作站 Linux 发行版。**
+**Linxira OS 是一个面向科研与 AI 的 Linux 工作站发行版。**
 
-当前主线是 **Linxira OS Deb Desktop**。基于 Linux Mint (Ubuntu LTS 生态)，
-使用 KDE Plasma 桌面环境，预装开发和科研工具链。
+基于 **CachyOS** (Arch 生态)，使用 KDE Plasma 桌面环境，预装开发和科研工具链。
+默认双内核配置 (6.18 主线 + 6.18 LTS)，提供性能与稳定性的平衡。
 
 ## English
 
-**Linxira OS is an independent Linux distribution for scientific and AI workstations.**
+**Linxira OS is a Linux workstation distribution for scientific and AI computing.**
 
-The current mainline is **Linxira OS Deb Desktop**. Based on Linux Mint (Ubuntu LTS ecosystem),
-using KDE Plasma desktop with pre-installed development and scientific toolchains.
+Based on **CachyOS** (Arch ecosystem), using KDE Plasma desktop with pre-installed
+development and scientific toolchains. Default dual-kernel configuration
+(6.18 mainline + 6.18 LTS) balances performance and stability.
+
+## Technical Highlights
+
+- **CachyOS base** — optimized packages, rolling release
+- **Dual kernel** — mainline for performance, LTS for stability
+- **KDE Plasma + NIRI** — modern desktop with scrolling-tiling option
+- **mise + Miniforge3** — multi-language + scientific computing
+- **Distrobox** — containerized environments
 
 ## Product Architecture
 
 - Product architecture and repository boundaries: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-
-Current supported directions:
-
-- **Deb Desktop** — stable desktop line (v1.0)
+- Development roadmap: [docs/ROADMAP.md](docs/ROADMAP.md)
 
 ## Related Repositories
 
@@ -30,6 +36,7 @@ Current supported directions:
 - [linxira-artwork](https://github.com/Linxira-OS/linxira-artwork) — Brand assets
 - [linxira-wiki](https://github.com/Linxira-OS/linxira-wiki) — Documentation
 - [Linxira-OS.github.io](https://github.com/Linxira-OS/Linxira-OS.github.io) — Website
+- [linxira-iso](https://github.com/Linxira-OS/linxira-iso) — ISO build system
 
 ### AI Tools (Independent)
 - [extendai-lab-Studio](https://github.com/Linxira-OS/extendai-lab-Studio) — AI research orchestration
@@ -38,5 +45,5 @@ Current supported directions:
 
 ## Trademark Notice
 
-Linxira OS is not affiliated with or endorsed by Debian, Ubuntu, Linux Mint, Arch Linux,
+Linxira OS is not affiliated with or endorsed by CachyOS, Arch Linux,
 or the LinxISA / linx-isa hardware architecture projects.

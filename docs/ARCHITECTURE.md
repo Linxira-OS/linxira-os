@@ -1,213 +1,157 @@
-# Linxira OS Product Architecture v1.0
+# Linxira OS Product Architecture v2.0
 
 ## 1. Product Definition
 
-Linxira OS is a **personal scientific workstation platform** oriented first toward
-bioinformatics, then toward broader AI, mathematics, physics, chemistry, and
-engineering workflows.
+Linxira OS is a **scientific and AI workstation Linux distribution** based on
+CachyOS (Arch ecosystem). It provides a modern, performant platform for
+bioinformatics, AI/ML, mathematics, physics, chemistry, and engineering workflows.
 
-The four primary goals are:
+The primary goals are:
 
-1. **Bioinformatics-first** — the first-class user is a serious scientific user
-   with an independent machine.
+1. **Performance-first** — leveraging CachyOS optimizations for maximum throughput.
 2. **Reproducibility** — research and development environments must be portable,
    lockable, and restorable.
-3. **Hardware friendliness** — the platform must be usable on mainstream
-   personal workstation hardware with explicit support priorities.
-4. **Personal workstation UX** — the platform needs a real GUI, not only a
-   shell-driven experience.
+3. **Modern desktop** — KDE Plasma with NIRI compositor support.
+4. **Developer-friendly** — pre-configured toolchains for scientific computing.
 
-## 2. Supported Product Lines
+## 2. Technical Foundation
 
-### 2.1 Deb Desktop (v1.0)
+### 2.1 Base Distribution
 
-- **Role**: stable desktop line for most users.
-- **Base**: Linux Mint (Ubuntu LTS ecosystem).
-- **Audience**: users who value predictable behavior, documentation, and broad
-  compatibility.
-- **Surface**: GUI-first, installer-equipped, workstation-focused.
+- **CachyOS** (Arch Linux ecosystem)
+- Rolling release with semi-annual stable snapshots
+- Optimized packages for x86-64-v3/v4 architectures
 
-### 2.2 Not in the First Delivery Wave
+### 2.2 Kernel Strategy
 
-- Server line stays deferred until Desktop is stable.
-- WSL line stays deferred until Desktop is stable.
-- NIRI compositor integration stays deferred until v1.1+.
+**Default dual-kernel configuration:**
+
+| Kernel | Version | Purpose |
+|--------|---------|---------|
+| `linux-cachyos` | 6.18.x (mainline) | Daily use, latest features |
+| `linux-cachyos-lts` | 6.18.x (LTS) | Backup, stability |
+
+GRUB boot menu provides 3 options:
+1. CachyOS (mainline kernel)
+2. CachyOS LTS Kernel
+3. CachyOS Legacy Hardware (nomodeset)
+
+### 2.3 Desktop Environment
+
+- **KDE Plasma** (primary)
+- **NIRI** (scrolling-tiling Wayland compositor, optional)
+- SDDM display manager
+
+### 2.4 Package Management
+
+| Manager | Purpose |
+|---------|---------|
+| pacman | System packages |
+| yay/paru | AUR helper |
+| mise | Multi-language version manager |
+| Miniforge3 | Scientific computing (bioconda + conda-forge) |
+| Distrobox | Containerized environments |
+| uv | Fast Python packages |
 
 ## 3. Layered Architecture
 
-Linxira should combine the strengths of multiple ecosystems by separating
-responsibilities into layers, not by forcing everything into one ISO.
+### 3.1 Base System Layer
 
-### 3.1 Base Distribution Layer
-
-Responsible for:
-
-- boot and init
-- desktop session
-- installer
-- system networking
-- device drivers and kernel integration
-- native package manager (apt)
-
-This layer is distribution-specific (Linux Mint / Ubuntu LTS).
+- CachyOS base with optimized packages
+- Kernel and driver management
+- System initialization and services
 
 ### 3.2 Linxira Platform Layer
 
-Responsible for Linxira-specific product capabilities:
-
-- GUI control center and system tools
-- source / mirror management
-- runtime management
-- hardware detection and guidance
-- onboarding and first steps
-- branding and desktop defaults
-- terminal experience and MOTD
-
-This layer should be as shared as possible across future product lines.
+- Linxira Config Hub (source management, workflow templates)
+- Linxira Welcome (onboarding)
+- Branding and desktop defaults
 
 ### 3.3 Reproducibility Layer
 
-Responsible for environment portability and locking:
-
-- `mise` as a first-class multi-language version manager
-- `Miniforge3` as a scientific computing package manager
+- `mise` for multi-language version management
+- `Miniforge3` for scientific computing
 - `Distrobox` for containerized environments
 - `uv` for fast Python package management
 
-This layer must not replace the system package manager. It complements it.
-
 ### 3.4 Domain Environment Layer
 
-Responsible for domain-specific stacks:
+- Bioinformatics (via BioArchLinux repository)
+- AI/ML (PyTorch, TensorFlow)
+- Scientific computing (NumPy, SciPy, etc.)
 
-- bioinformatics
-- AI / ML
-- mathematics
-- chemistry
-- physics
-- engineering
+## 4. ISO Variants
 
-These should be delivered primarily through profiles, templates, meta packages,
-and reproducible environment definitions rather than by embedding everything in
-the base ISO.
+### 4.1 Desktop ISO
 
-## 4. GUI Product Modules
+- User selects desktop environment during install
+- Options: KDE Plasma / NIRI
+- Pre-installed development and scientific toolchain
+- For: general users, researchers
 
-### 4.1 Linxira Config Hub
+### 4.2 Base ISO
 
-Primary responsibilities:
+- No desktop environment, CLI only
+- User configures desktop and tools manually
+- Pre-installed base system tools and package managers
+- For: servers, developers, advanced users
 
-- manage APT mirrors
-- manage mise runtimes
-- manage Miniforge channels
-- benchmark mirrors and show region / provider metadata
-- provide safe source switching and restore paths
-- configure system services (SSH, remote desktop, firewall)
-- offer preset workflow templates
+### 4.3 WSL ISO (future)
 
-### 4.2 Linxira Welcome
+- Based on Base version
+- Optimized for WSL
+- For: Windows users
 
-Primary responsibilities:
+## 5. Repository Structure
 
-- onboarding
-- initial system setup
-- source/runtime/hardware guidance
-- launch points into Config Hub
+### 5.1 Current Repositories
 
-## 5. Package and Preinstall Strategy
+| Repository | Role |
+|------------|------|
+| `linxira-os` | Meta-repository, architecture docs |
+| `linxira-artwork` | Brand assets (logos, wallpapers) |
+| `linxira-wiki` | Documentation (Linxira-specific only) |
+| `Linxira-OS.github.io` | Official website |
+| `linxira-iso` | ISO build system (forked from CachyOS-Live-ISO) |
+| `linxira-config-hub` | Configuration center (GUI + CLI) |
 
-### 5.1 Principles
+### 5.2 AI Repositories (independent)
 
-- Do **not** embed every important scientific package into the ISO.
-- Keep the base image focused on a stable workstation entry experience.
-- Heavy or license-sensitive tools should usually be user-selected.
+| Repository | Role |
+|------------|------|
+| `extendai-lab-Studio` | AI research orchestration |
+| `extendai-lab-cli` | AI coding agent |
+| `linxira-pulse` | System-level AI assistant |
 
-### 5.2 Deb Desktop Base
-
-Deb Desktop should ship with:
-
-- KDE Plasma desktop and installer
-- browser, terminal, file manager, editor set
-- `mise` (multi-language version manager)
-- `Miniforge3` (with bioconda + conda-forge)
-- `Distrobox` (containerized environments)
-- Linxira Config Hub
-- a small number of scientific entry tools
-
-Large scientific application sets should move to profiles/templates rather than
-the default ISO payload.
-
-## 6. Asset and Branding Pipeline
-
-Linxira branding assets must be treated as a system, not scattered files.
-
-### 6.1 Asset Categories
-
-- core branding: SVG logo, simplified logo, ASCII logo, slogans
-- desktop branding: wallpapers, login/installer branding, icons
-- terminal branding: MOTD, fastfetch/neofetch templates, shell banners
-- docs/web branding: release pages, README assets, website headers
-
-### 6.2 Required Outputs
-
-- Chinese desktop wallpaper set
-- English desktop wallpaper set
-- shared low-language-dependence fallback wallpaper set
-- terminal ASCII identity derived from the same brand source
-
-## 7. Repository Boundaries
-
-### 7.1 Current Workspace Roles
-
-- `linxira-artwork` — shared visual assets (canonical source)
-- `linxira-os` — meta-repository for product architecture and top-level docs
-- `linxira-wiki` — documentation (only Linxira-specific features)
-- `Linxira-OS.github.io` — official website
-
-### 7.2 Future Repositories
-
-- `linxira-live` — Deb Desktop live ISO build system
-- `linxira-config-hub` — cross-ecosource configuration tool
-- `linxira-default-settings` — KDE Plasma defaults
-- `linxira-calamares-settings` — installer configuration
-- `linxira-meta-packages` — meta package definitions
-
-### 7.3 External Repositories
-
-- `extendai-lab-Studio` — AI research orchestration layer
-- `extendai-lab-cli` — AI coding agent
-- `linxira-pulse` — system-level AI assistant
-
-## 8. Implementation Waves
+## 6. Implementation Waves
 
 ### Wave 1 (Current)
 
-- establish product architecture and repository structure
-- create artwork, website, and wiki
-- stabilize Deb Desktop base image
+- Establish product architecture
+- Fork CachyOS-Live-ISO for build system
+- Create artwork, website, wiki
 
 ### Wave 2
 
-- create linxira-live build system
-- create linxira-config-hub
-- build and test first ISO
+- Configure ISO build system
+- Implement Linxira Config Hub
+- Build and test first ISO
 
 ### Wave 3
 
-- create linxira-default-settings
-- create linxira-calamares-settings
-- create linxira-meta-packages
-- integration testing
-
-### Wave 4
-
 - NIRI compositor integration
 - WSL tarball
+- Workflow templates
+
+### Wave 4 (Future)
+
+- Domestic GPU support (when hardware available)
+- Additional desktop environments
 - Server line (if needed)
 
-## 9. Non-Goals for the Current Iteration
+## 7. Non-Goals
 
-- no attempt to make one ISO contain every scientific tool
-- no attempt to collapse all ecosystems into one package manager
-- no server or WSL line in v1.0
-- no NIRI integration in v1.0
+- No attempt to embed every scientific tool in ISO
+- No attempt to support domestic GPU in v1.0
+- No server or WSL line in v1.0
+- No NIRI integration in v1.0
