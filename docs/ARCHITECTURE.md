@@ -1,157 +1,178 @@
-# Linxira OS Product Architecture v2.0
+# Linxira OS Product Architecture v3.0
 
 ## 1. Product Definition
 
-Linxira OS is a **scientific and AI workstation Linux distribution** based on
-CachyOS (Arch ecosystem). It provides a modern, performant platform for
-bioinformatics, AI/ML, mathematics, physics, chemistry, and engineering workflows.
+Linxira OS is an independent scientific and AI workstation distribution built
+directly from Arch Linux packages and tooling. It combines a reproducible Arch
+host, a graphical installer, system rollback, and optional scientific profiles.
 
-The primary goals are:
+The first release prioritizes installation and recovery reliability over
+distribution-wide compiler optimization.
 
-1. **Performance-first** — leveraging CachyOS optimizations for maximum throughput.
-2. **Reproducibility** — research and development environments must be portable,
-   lockable, and restorable.
-3. **Modern desktop** — KDE Plasma with NIRI compositor support.
-4. **Developer-friendly** — pre-configured toolchains for scientific computing.
+## 2. Trust And Repository Model
 
-## 2. Technical Foundation
+- Arch official repositories provide the base system, desktop, kernels,
+  Timeshift, grub-btrfs, firmware, and normal updates.
+- The planned signed `[linxira]` repository contains Linxira-owned packages and a
+  small set of explicitly adopted, source-built integration packages that Arch
+  does not provide.
+- Release installation never contacts AUR helpers or CachyOS repositories.
+- Exact installation packages are copied into an offline repository in the ISO.
+  The RC6 development repository is unsigned; signed package and repository
+  metadata remain a release gate.
+- Arch Linux Archive dates may be used to reproduce and promote tested package
+  cohorts until Linxira operates a complete package archive.
 
-### 2.1 Base Distribution
+Initial Linxira components include artwork, hooks, repository configuration,
+Welcome, Config Hub, installer configuration, and a pinned Calamares build.
+Shelly is the graphical package manager in both the Live session and installed
+system, but it does not own or participate in Calamares installation
+transactions.
 
-- **CachyOS** (Arch Linux ecosystem)
-- Rolling release with semi-annual stable snapshots
-- Optimized packages for x86-64-v3/v4 architectures
+## 3. Installer Architecture
 
-### 2.2 Kernel Strategy
+The independent `linxira-iso-direct` repository builds the current ISO. It boots
+to a complete Plasma Live desktop, not a restricted installer-only session:
 
-**Default dual-kernel configuration:**
+```text
+Archiso
+  -> unprivileged installer user
+  -> full Plasma Wayland session
+  -> Welcome autostart
+  -> user manually launches Calamares
+  -> package-based offline target installation
+```
 
-| Kernel | Version | Purpose |
-|--------|---------|---------|
-| `linux-cachyos` | 6.18.x (mainline) | Daily use, latest features |
-| `linux-cachyos-lts` | 6.18.x (LTS) | Backup, stability |
+The Live session keeps the normal Plasma panel, application menu, terminal,
+file manager, networking, Shelly, system tools, and recovery tools available
+while Calamares runs. Calamares does not autostart. The mutable Live root is not
+copied into the target.
 
-GRUB boot menu provides 3 options:
-1. CachyOS (mainline kernel)
-2. CachyOS LTS Kernel
-3. CachyOS Legacy Hardware (nomodeset)
+Calamares is not an official Arch package. Linxira pins an upstream release and
+builds it independently in a clean Arch environment. RC6 uses that locally built
+package; signing and publication through the Linxira package pipeline remain
+pending. Existing CachyOS Calamares code may be consulted as licensed historical
+reference material, but it is not a current binary, repository, or build
+dependency.
 
-### 2.3 Desktop Environment
+## 4. Welcome Boundary
 
-- **KDE Plasma** (primary)
-- **NIRI** (scrolling-tiling Wayland compositor, optional)
-- SDDM display manager
+Linxira Welcome is the current `org.linxira.Welcome` Python/PySide6 application.
+It reads catalog v2 metadata and the installer receipt, opens project resources,
+and launches only fixed allowlisted desktop executables. It does not execute
+shell strings, `sudo`, `pkexec`, or package transactions. Calamares handles
+installation; Shelly is the graphical package manager.
 
-### 2.4 Package Management
+The XDG autostart entry invokes Welcome at Plasma login when the per-user
+`Show Welcome at login` setting is enabled. The setting defaults to enabled and
+persists for an installed user. A Live profile is ephemeral, so Welcome opens on
+each fresh Live boot. This is a login preference, not a one-time completion or
+first-boot migration flag.
 
-| Manager | Purpose |
-|---------|---------|
-| pacman | System packages |
-| yay/paru | AUR helper |
-| mise | Multi-language version manager |
-| Miniforge3 | Scientific computing (bioconda + conda-forge) |
-| Distrobox | Containerized environments |
-| uv | Fast Python packages |
+## 5. Kernel Profiles
 
-## 3. Layered Architecture
+Every installation has one primary kernel and one official LTS recovery kernel.
+The release design defines two mutually exclusive profiles:
 
-### 3.1 Base System Layer
+| Profile | Primary | Recovery | Intended use |
+|---------|---------|----------|--------------|
+| Standard | `linux` | `linux-lts` | General and compute workloads |
+| Responsive desktop | `linux-zen` | `linux-lts` | Interactive workstation latency |
 
-- CachyOS base with optimized packages
-- Kernel and driver management
-- System initialization and services
+Matching headers are installed for both selected kernels. GRUB explicitly uses
+the primary kernel as its top-level default. Linxira does not install all three
+kernels because that unnecessarily expands DKMS, initramfs, snapshot, and test
+matrices.
 
-### 3.2 Linxira Platform Layer
+RC6 implements the Standard profile. The Responsive desktop profile remains a
+release task and must not be presented as accepted current behavior.
 
-- Linxira Config Hub (source management, workflow templates)
-- Linxira Welcome (onboarding)
-- Branding and desktop defaults
+NVIDIA installation uses a validated DKMS package so modules build for both
+kernels. An installation is not promoted until both kernels boot and the GPU
+passes native and container tests.
 
-### 3.3 Reproducibility Layer
+## 6. Btrfs And Timeshift
 
-- `mise` for multi-language version management
-- `Miniforge3` for scientific computing
-- `Distrobox` for containerized environments
-- `uv` for fast Python package management
+Timeshift is the supported graphical system-rollback tool for the first
+release. Snapper is deferred to avoid two competing snapshot policies.
 
-### 3.4 Domain Environment Layer
+The automatic Btrfs layout is:
 
-- Bioinformatics (via BioArchLinux repository)
-- AI/ML (PyTorch, TensorFlow)
-- Scientific computing (NumPy, SciPy, etc.)
+```text
+@       -> /
+@home   -> /home
+@log    -> /var/log
+@cache  -> /var/cache
+@tmp    -> /var/tmp
+@swap   -> /.swap
+```
 
-## 4. ISO Variants
+The Btrfs default remains top-level subvolume ID 5. `/etc/fstab` mounts by
+subvolume name, not subvolume ID. `/boot` remains inside `@`; the UEFI system
+partition is mounted at `/boot/efi`. This keeps kernels and initramfs files with
+the matching root snapshot. BIOS installations use the same root layout.
 
-### 4.1 Desktop ISO
+Official Arch `timeshift`, `grub-btrfs`, `btrfs-progs`, `inotify-tools`, and
+`cronie` packages provide snapshot management. `grub-btrfsd` runs with
+`--timeshift-auto`. Snapshot boot is an emergency recovery path; the supported
+normal rollback is a Timeshift restore followed by reboot.
 
-- User selects desktop environment during install
-- Options: KDE Plasma / NIRI
-- Pre-installed development and scientific toolchain
-- For: general users, researchers
+Snapshots protect system state, not research data. Scratch data, container
+caches, and large pipeline intermediates require separate storage policy.
 
-### 4.2 Base ISO
+## 7. AI Operations Boundary
 
-- No desktop environment, CLI only
-- User configures desktop and tools manually
-- Pre-installed base system tools and package managers
-- For: servers, developers, advanced users
+AI automation does not receive a general root shell. Privileged mutations are
+exposed through fixed, root-owned operations. Before package, service, boot,
+driver, or system-configuration changes, the operation controller must:
 
-### 4.3 WSL ISO (future)
+1. Check Btrfs free space and Timeshift health.
+2. Create an on-demand pre-change snapshot.
+3. Record the operation and snapshot identifiers outside the snapshot set.
+4. Abort when the snapshot fails.
+5. Require human approval for destructive or cluster-wide operations.
 
-- Based on Base version
-- Optimized for WSL
-- For: Windows users
+Snapshots remain removable only through a separately authorized maintenance
+path. Off-host backups are required for irreplaceable data and configuration.
 
-## 5. Repository Structure
+## 8. Performance Policy
 
-### 5.1 Current Repositories
+The public ISO initially uses Arch official packages only. Performance work is
+promoted by measured workload results, not by distribution-wide claims.
 
-| Repository | Role |
-|------------|------|
-| `linxira-os` | Meta-repository, architecture docs |
-| `linxira-artwork` | Brand assets (logos, wallpapers) |
-| `linxira-wiki` | Documentation (Linxira-specific only) |
-| `Linxira-OS.github.io` | Official website |
-| `linxira-iso` | ISO build system (forked from CachyOS-Live-ISO) |
-| `linxira-config-hub` | Configuration center (GUI + CLI) |
+Priorities are application SIMD dispatch, BLAS/FFTW selection, CUDA and NCCL,
+NUMA and thread affinity, local scratch I/O, and reproducible Apptainer images.
+ALHP `x86-64-v3` or locally built kernels may be tested on internal canary nodes,
+but are not public installation dependencies before Linxira controls building,
+signing, archiving, rollback, and redistribution compliance.
 
-### 5.2 AI Repositories (independent)
+## 9. Build And Test Environment
 
-| Repository | Role |
-|------------|------|
-| `extendai-lab-Studio` | AI research orchestration |
-| `extendai-lab-cli` | AI coding agent |
-| `linxira-pulse` | System-level AI assistant |
+- WSL is used for source work, linting, package-list validation, and CI parity.
+- Release packages and ISOs are built in an Arch VM on a native Linux
+  filesystem.
+- Hyper-V Generation 1 validates legacy BIOS.
+- Hyper-V Generation 2 validates UEFI with Secure Boot disabled.
+- Physical NVIDIA hardware validates DKMS and CUDA paths.
 
-## 6. Implementation Waves
+RC6 has passed source and artifact checks plus QEMU BIOS and UEFI menu boots.
+Complete write-to-disk installation, installed-system first boot, and recovery
+acceptance have not yet passed.
 
-### Wave 1 (Current)
+## 10. Independent Projects
 
-- Establish product architecture
-- Fork CachyOS-Live-ISO for build system
-- Create artwork, website, wiki
+ExtendAI Lab Studio, ExtendAI Lab CLI, Linxira Pulse, Linxira Skills, and the
+upstream OpenCode clone are independent projects. They are not rewritten or
+versioned as part of the operating-system base migration.
 
-### Wave 2
+## 11. First-Release Non-Goals
 
-- Configure ISO build system
-- Implement Linxira Config Hub
-- Build and test first ISO
-
-### Wave 3
-
-- NIRI compositor integration
-- WSL tarball
-- Workflow templates
-
-### Wave 4 (Future)
-
-- Domestic GPU support (when hardware available)
-- Additional desktop environments
-- Server line (if needed)
-
-## 7. Non-Goals
-
-- No attempt to embed every scientific tool in ISO
-- No attempt to support domestic GPU in v1.0
-- No server or WSL line in v1.0
-- No NIRI integration in v1.0
+- No CachyOS binary repositories or redistributed CachyOS packages
+- No custom Linxira kernel
+- No self-hosted replacement for the full Arch repositories
+- No Secure Boot guarantee
+- No Snapper policy
+- No online-only or minimal installer
+- No multiple desktop editions
+- No AUR helper during installation
+- No distribution-wide `x86-64-v3/v4` package replacement
