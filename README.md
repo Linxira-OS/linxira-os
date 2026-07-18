@@ -12,7 +12,7 @@
 或应用菜单手动启动 Calamares。已安装系统使用 Btrfs + Timeshift 系统回滚和
 官方 Arch 双内核配置。
 
-首发设计定义两种内核配置，每种都只安装两个内核；RC6 当前仅实现标准配置，
+首发设计定义两种内核配置，每种都只安装两个内核；RC7 当前仅实现标准配置，
 响应性桌面配置仍待完成：
 
 - 标准：`linux` + `linux-lts`
@@ -21,7 +21,7 @@
 基础系统来自 Arch 官方仓库。Linxira 自有组件和必要集成包独立构建；发布仓库
 签名仍待完成。CachyOS 资料仅可作为有许可证的历史实现参考，不是当前依赖。
 
-RC6 已通过静态检查以及 QEMU BIOS/UEFI 菜单启动验证。完整写盘安装、安装后
+RC7 已通过静态检查以及 QEMU BIOS/UEFI 菜单启动验证。完整写盘安装、安装后
 首次启动和恢复流程仍待验收。
 
 ## English
@@ -35,7 +35,7 @@ KDE Plasma Live session. Users start Calamares manually from Linxira Welcome or
 the application menu. Installed systems use Btrfs + Timeshift rollback and an
 official Arch dual-kernel configuration.
 
-The release design defines two profiles, each with exactly two kernels. RC6
+The release design defines two profiles, each with exactly two kernels. RC7
 currently implements only Standard; Responsive desktop remains pending:
 
 - Standard: `linux` + `linux-lts`
@@ -46,7 +46,7 @@ integration packages are built independently; release repository signing is
 still pending. CachyOS material is historical licensed reference only, not a
 current dependency.
 
-RC6 has passed static checks and QEMU BIOS/UEFI menu boot tests. Full disk
+RC7 has passed static checks and QEMU BIOS/UEFI menu boot tests. Full disk
 installation, first boot of the installed system, and recovery acceptance are
 still outstanding.
 

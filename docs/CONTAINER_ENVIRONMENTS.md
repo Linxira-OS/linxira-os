@@ -94,7 +94,7 @@ linxira env remove ai-cpu
 
 ## 实施顺序
 
-1. RC6 完成写盘安装、安装后首次启动和恢复验收。
+1. RC7 完成写盘安装、安装后首次启动和恢复验收。
 2. 扩展 catalog v2 schema，加入只读 metadata/allowlist 和验证器；catalog 不执行事务。
 3. 实现 `linxira env plan/fetch/create/verify/remove`，先支持 Podman。
 4. 加入 Distrobox 桌面和终端集成。
@@ -102,4 +102,4 @@ linxira env remove ai-cpu
 6. 设计独立的离线环境包或伴随环境 ISO。
 7. 完成 CPU、NVIDIA、AMD 和无 GPU 验证矩阵后再公开推荐。
 
-这个功能属于 Milestone 2，不应阻塞基础系统安装和 RC6 验收。
+这个功能属于 Milestone 2，不应阻塞基础系统安装和 RC7 验收。

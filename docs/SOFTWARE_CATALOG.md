@@ -46,7 +46,7 @@ source boundaries are visible in the interface and catalog:
 | Flatpak | Disabled | User opt-in; a remote such as Flathub requires confirmation |
 | AppImage | Disabled | User opt-in; user chooses the download and update source |
 
-The table describes release policy. RC6 uses locally built packages and unsigned
+The table describes release policy. RC7 uses locally built packages and unsigned
 development metadata; production `[linxira]` transactions remain gated on the
 signed repository.
 

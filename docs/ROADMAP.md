@@ -31,8 +31,8 @@
 
 ### Verification
 
-- [x] QEMU BIOS menu boot for RC6
-- [x] QEMU UEFI menu boot for RC6
+- [x] QEMU BIOS menu boot for RC7
+- [x] QEMU UEFI menu boot for RC7
 - [ ] Complete BIOS write-to-disk installation and first boot
 - [ ] Complete UEFI write-to-disk installation and first boot
 - [ ] Encrypted and unencrypted Btrfs installation

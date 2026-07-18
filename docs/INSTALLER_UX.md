@@ -82,7 +82,7 @@ recovery path.
 ## Offline Contract
 
 The complete base system installs without a network connection from the embedded
-repository. RC6 uses unsigned development metadata; release media must use
+repository. RC7 uses unsigned development metadata; release media must use
 signed package and repository metadata. Calamares does not copy the temporary
 file-based repository configuration into the target.
 

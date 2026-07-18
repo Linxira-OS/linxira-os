@@ -18,7 +18,7 @@ distribution-wide compiler optimization.
   does not provide.
 - Release installation never contacts AUR helpers or CachyOS repositories.
 - Exact installation packages are copied into an offline repository in the ISO.
-  The RC6 development repository is unsigned; signed package and repository
+  The RC7 development repository is unsigned; signed package and repository
   metadata remain a release gate.
 - Arch Linux Archive dates may be used to reproduce and promote tested package
   cohorts until Linxira operates a complete package archive.
@@ -49,7 +49,7 @@ while Calamares runs. Calamares does not autostart. The mutable Live root is not
 copied into the target.
 
 Calamares is not an official Arch package. Linxira pins an upstream release and
-builds it independently in a clean Arch environment. RC6 uses that locally built
+builds it independently in a clean Arch environment. RC7 uses that locally built
 package; signing and publication through the Linxira package pipeline remain
 pending. Existing CachyOS Calamares code may be consulted as licensed historical
 reference material, but it is not a current binary, repository, or build
@@ -84,7 +84,7 @@ the primary kernel as its top-level default. Linxira does not install all three
 kernels because that unnecessarily expands DKMS, initramfs, snapshot, and test
 matrices.
 
-RC6 implements the Standard profile. The Responsive desktop profile remains a
+RC7 implements the Standard profile. The Responsive desktop profile remains a
 release task and must not be presented as accepted current behavior.
 
 NVIDIA installation uses a validated DKMS package so modules build for both
@@ -155,7 +155,7 @@ signing, archiving, rollback, and redistribution compliance.
 - Hyper-V Generation 2 validates UEFI with Secure Boot disabled.
 - Physical NVIDIA hardware validates DKMS and CUDA paths.
 
-RC6 has passed source and artifact checks plus QEMU BIOS and UEFI menu boots.
+RC7 has passed source and artifact checks plus QEMU BIOS and UEFI menu boots.
 Complete write-to-disk installation, installed-system first boot, and recovery
 acceptance have not yet passed.
 

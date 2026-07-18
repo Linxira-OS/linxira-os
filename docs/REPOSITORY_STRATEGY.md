@@ -18,7 +18,7 @@ Linxira ISO GitHub Releases
 
 This model avoids redistributing CachyOS binaries and avoids taking ownership of
 the complete Arch package lifecycle before Linxira has durable infrastructure.
-RC6 still uses locally built packages and unsigned development repository
+RC7 still uses locally built packages and unsigned development repository
 metadata; the signed public repository described below is a release requirement,
 not a completed dependency.
 
@@ -104,7 +104,7 @@ database that references missing artifacts.
 
 Each release ISO contains a separate signed repository with the exact package
 closure used for installation. It is generated from a recorded Arch package
-cohort and the promoted Linxira repository state. RC6 embeds the same structural
+cohort and the promoted Linxira repository state. RC7 embeds the same structural
 boundary with unsigned development metadata.
 
 The installer uses the embedded repository only while installing the target.
@@ -162,7 +162,7 @@ systems. It may manage Arch repositories, AUR packages, Flatpaks, and AppImages,
 but it is not used by Calamares or the offline installation repository.
 
 - Linxira builds Shelly from a pinned upstream source archive. Release packages
-  must be signed with the Linxira package key; RC6 uses a local development
+  must be signed with the Linxira package key; RC7 uses a local development
   package.
 - Linxira does not consume CachyOS, AUR, or Seafoam binary repositories to
   build or distribute Shelly.

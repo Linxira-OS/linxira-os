@@ -15,7 +15,7 @@ access.
 4. Manually start Calamares from Welcome or the application menu, then complete
    its language, keyboard, storage, kernel profile, user, and
    summary pages.
-5. Install the base system from the repository embedded in the ISO. RC6 uses
+5. Install the base system from the repository embedded in the ISO. RC7 uses
    unsigned development metadata; release media must use signed metadata.
 6. Create an initial Timeshift snapshot and GRUB configuration.
 7. Reboot into the installed system.
@@ -42,14 +42,14 @@ data backup is outside this contract.
 ## Package Contract
 
 - Arch official repositories supply the base packages.
-- The RC6 development image uses locally built Linxira integration packages and
+- The RC7 development image uses locally built Linxira integration packages and
   an unsigned embedded repository for the exact installation set.
 - Release images require signed Linxira packages and signed offline repository
   metadata.
 - Calamares is built from a pinned upstream release in a clean Arch chroot.
 - AUR helpers and third-party binary repositories are not used by the installer.
 
-## Current RC6 Evidence
+## Current RC7 Evidence
 
 - Source and artifact checks pass.
 - QEMU BIOS and UEFI menu boots pass.
