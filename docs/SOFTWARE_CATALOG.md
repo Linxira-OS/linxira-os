@@ -35,9 +35,12 @@ proprietary vendor packages require a specific maintenance and license decision.
 
 ## Software Management
 
-Shelly is the default graphical software manager in both the Live session and
-installed system. It is never part of a Calamares installation transaction. Its
-source boundaries are visible in the interface and catalog:
+Linxira Package Center is the graphical software installation surface in the
+Live session and installed system. It reads catalog v2 and owns the confirmed
+application transaction; it is never invoked through the administrator CLI.
+Shelly remains a recommendation/launcher integration and is never part of a
+Calamares installation transaction. Source boundaries are visible in the
+interface and catalog:
 
 | Source | Default state | Policy |
 |--------|---------------|--------|
@@ -61,13 +64,14 @@ available through `fwupd` and Config Hub/System Settings integration.
 | Office alternative | ONLYOFFICE Desktop Editors | Verified Flatpak | Optional |
 | Mail | Thunderbird | Arch | Optional |
 | Passwords | KeePassXC | Arch | Recommended |
-| Media | VLC | Arch | Recommended |
+| Media | Haruna | Arch | KDE default |
+| Media alternative | VLC | Arch | Explicitly optional |
 | Creation | Krita, GIMP, Inkscape, Kdenlive, OBS Studio | Arch | Creator profile |
 | Development | Git, base-devel, CMake, Code OSS | Arch | Developer profile |
 | Containers | Podman, Distrobox | Arch | Developer profile |
 | Files | Nextcloud client, Syncthing, LocalSend | Arch/verified Flatpak | Optional |
 | Flatpak control | Flatseal | Flatpak | Recommended with Flatpak |
-| Scientific | Miniforge bootstrap and Jupyter profile | Vendor/Linxira integration | Scientific profile |
+| Scientific | Jupyter profile and Miniforge runtime | Arch plus explicit Miniforge channels | Pending bootstrap/profile implementation |
 | Bioinformatics | Apptainer and workflow manifests | Arch/Linxira integration | Bioinformatics profile |
 
 Communication, gaming, proprietary remote-access, and region-specific software

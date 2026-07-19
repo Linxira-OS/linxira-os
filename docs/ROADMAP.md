@@ -52,7 +52,8 @@
 
 ## Milestone 2: Scientific Workstation Profiles
 
-- [ ] Miniforge and bioconda profile
+- [ ] Miniforge and bioconda profile (channel configuration is available in
+      Config Hub; bootstrap and environment manifest remain pending)
 - [ ] Apptainer and BioContainers profile
 - [ ] Development toolchain profile
 - [ ] Versioned `linxira env` manifests for rootless Podman/Distrobox environments
@@ -60,7 +61,7 @@
 - [ ] Optional offline environment packs separate from the base ISO
 - [ ] CUDA-enabled container validation matrix
 - [ ] AI-operation pre-change snapshot interface
-- [ ] Config Hub integration
+- [x] Config Hub source/channel integration baseline
 
 ## Milestone 3: Measured Performance Options
 
