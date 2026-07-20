@@ -7,52 +7,44 @@
 
 **Linxira OS 是一个面向科研与 AI 工作流的 Linux 工作站发行版。**
 
-当前基线直接使用 Arch Linux 官方仓库的软件包与工具链。独立的
-`linxira-iso-direct` 构建完整 KDE Plasma Live 会话；用户从 Linxira Welcome
-或应用菜单手动启动 Calamares。已安装系统使用 Btrfs + Timeshift 系统回滚和
-官方 Arch 双内核配置。
+当前基线直接使用 Arch Linux 官方仓库的软件包与工具链。Live ISO、正式目标系统和
+首次联网完成是三个独立交付范围。Phase 1 正式支持 Plasma 与 GNOME，离线 ISO 只
+保证 Plasma 的完整安装闭包；GNOME 必须完成联网安装和独立验收后才开放。
 
-首发设计定义两种内核配置，每种都只安装两个内核；当前 RC13 仍只实现标准配置，
-响应性桌面配置仍待完成：
+目标系统使用 Btrfs、Timeshift、`linux` 与 `linux-lts`。桌面、系统能力、科学能力和
+应用拥有不同数据语义；应用与能力按树形叶子独立选择，分类和 preset 不是不可拆分
+安装单位。Welcome 只负责状态和路由，Package Center、Config CLI、驱动、内核、
+更新和恢复工具分别维护自己的产品边界。
 
-- 标准：`linux` + `linux-lts`
-- 响应性桌面：`linux-zen` + `linux-lts`
-
-基础系统来自 Arch 官方仓库。Linxira 自有组件和必要集成包独立构建；发布仓库
-签名仍待完成。CachyOS 资料仅可作为有许可证的历史实现参考，不是当前依赖。
-
-RC13 已通过静态检查、SquashFS 检查和 QEMU BIOS/UEFI 菜单启动验证。完整写盘
-安装、安装后首次启动、Hyper-V 交互验收和恢复流程仍待验收；在这些验收完成前，
-RC13 不是发布版本。
+RC17 因真实写盘安装中的 `crc32c-intel` initramfs 故障被拒绝，不是发布候选。故障
+修复已通过 clean-built Calamares 包和 disposable Btrfs 双内核 target 验证；新的 ISO
+仍须完成写盘、首次启动、Package Center、恢复和发布 provenance 验收。
 
 ## English
 
 **Linxira OS is a Linux workstation distribution for scientific and AI
 workflows.**
 
-The current baseline uses packages and tooling directly from the official Arch
-Linux repositories. The independent `linxira-iso-direct` project builds a full
-KDE Plasma Live session. Users start Calamares manually from Linxira Welcome or
-the application menu. Installed systems use Btrfs + Timeshift rollback and an
-official Arch dual-kernel configuration.
+The baseline uses packages and tooling from the official Arch Linux repositories.
+Live media, the installed target, and first-online completion are separate
+delivery scopes. Phase 1 supports Plasma and GNOME, while offline installation
+guarantees only the complete Plasma closure. GNOME remains hidden until its
+online installation and independent acceptance pass.
 
-The release design defines two profiles, each with exactly two kernels. RC13
-currently implements only Standard; Responsive desktop remains pending:
+The target uses Btrfs, Timeshift, `linux`, and `linux-lts`. Desktops, system
+capabilities, scientific capabilities, and applications have separate data
+semantics. Category and preset nodes never become indivisible installation
+units. Welcome provides status and routing; Package Center, Config CLI, driver,
+kernel, update, and recovery products keep independent ownership boundaries.
 
-- Standard: `linux` + `linux-lts`
-- Responsive desktop: `linux-zen` + `linux-lts`
-
-Arch repositories provide the base system. Linxira-owned components and required
-integration packages are built independently; release repository signing is
-still pending. CachyOS material is historical licensed reference only, not a
-current dependency.
-
-RC13 has passed static checks, SquashFS inspection, and QEMU BIOS/UEFI menu boot
-tests. Full disk installation, Hyper-V interaction, first boot of the installed
-system, and recovery acceptance are still outstanding; RC13 is not a release.
+RC17 was rejected after a real disk installation exposed an initramfs failure.
+The diagnosed fix has passed clean Calamares packaging and disposable Btrfs
+dual-kernel target tests. A new ISO still requires disk, first-boot, Package
+Center, recovery, and release-provenance acceptance.
 
 ## Product Architecture
 
+- [Phase 1 Architecture](docs/PHASE1_ARCHITECTURE.md) - current authority
 - [Architecture](docs/ARCHITECTURE.md)
 - [Milestone 1](docs/MILESTONE_1.md)
 - [Installer UX](docs/INSTALLER_UX.md)
@@ -60,6 +52,15 @@ system, and recovery acceptance are still outstanding; RC13 is not a release.
 - [Software Catalog](docs/SOFTWARE_CATALOG.md)
 - [Repository Strategy](docs/REPOSITORY_STRATEGY.md)
 - [Roadmap](docs/ROADMAP.md)
+
+Documents that describe RC7-RC13 are retained as historical evidence. When they
+conflict with the Phase 1 architecture, the Phase 1 document is authoritative.
+
+## Governance
+
+- [Repository ownership](governance/repositories.yaml)
+- [Repository policy](governance/REPOSITORY_POLICY.md)
+- [Release manifests](releases/README.md)
 
 ## Related Repositories
 
@@ -70,6 +71,15 @@ system, and recovery acceptance are still outstanding; RC13 is not a release.
 - [Linxira-OS.github.io](https://github.com/Linxira-OS/Linxira-OS.github.io)
 - [linxira-iso-direct](https://github.com/Linxira-OS/linxira-iso-direct)
 - [packages](https://github.com/Linxira-OS/packages)
+
+### System Software
+
+- [linxira-welcome](https://github.com/Linxira-OS/linxira-welcome)
+- [linxira-package-center](https://github.com/Linxira-OS/linxira-package-center)
+- [linxira-config-hub](https://github.com/Linxira-OS/linxira-config-hub)
+- [linxira-components](https://github.com/Linxira-OS/linxira-components)
+- [linxira-catalog](https://github.com/Linxira-OS/linxira-catalog)
+- [linxira-hooks](https://github.com/Linxira-OS/linxira-hooks)
 
 ### Independent AI Projects
 

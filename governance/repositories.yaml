@@ -1,0 +1,69 @@
+schemaVersion: 1
+updated: "2026-07-20"
+organization: "Linxira-OS"
+
+repositories:
+  - name: linxira-os
+    lifecycle: active
+    owns: [product-architecture, repository-governance, support-matrix, release-manifests]
+  - name: linxira-iso-direct
+    lifecycle: active
+    owns: [live-profile, installer-configuration, target-manifests, iso-build]
+  - name: packages
+    lifecycle: active
+    owns: [pkgbuilds, package-ci, signed-repository-publication]
+  - name: linxira-catalog
+    lifecycle: active
+    owns: [catalog-schema, applications, capabilities, presets, desktop-metadata]
+  - name: linxira-components
+    lifecycle: active
+    owns: [transaction-planning, confirmation, privileged-apply, receipts]
+  - name: linxira-package-center
+    lifecycle: active
+    owns: [package-center-ui, installed-state-presentation, gaming-setup-workflow]
+  - name: linxira-welcome
+    lifecycle: active
+    owns: [welcome-status, lifecycle-guidance, fixed-tool-routing]
+  - name: linxira-config-hub
+    lifecycle: active
+    owns: [linxira-cli, diagnostics, runtime-adapters, source-adapters, ssh-network-plans]
+  - name: linxira-artwork
+    lifecycle: active
+    owns: [brand-assets, terminal-artwork, visual-policy]
+  - name: linxira-hooks
+    lifecycle: review-required
+    owns: [pacman-hooks, reboot-state]
+  - name: linxira-wiki
+    lifecycle: active
+    owns: [user-documentation]
+  - name: Linxira-OS.github.io
+    lifecycle: active
+    owns: [public-website, publication-endpoint]
+  - name: linxira-hello
+    lifecycle: deprecated
+    supersededBy: linxira-welcome
+    owns: []
+  - name: linxira-iso
+    lifecycle: deprecated
+    supersededBy: linxira-iso-direct
+    owns: []
+  - name: extendai-lab-cli
+    lifecycle: independent
+    owns: [extendai-cli]
+  - name: extendai-lab-Studio
+    lifecycle: independent
+    owns: [extendai-studio]
+  - name: linxira-pulse
+    lifecycle: independent
+    owns: [ai-assistant]
+  - name: linxira-skills
+    lifecycle: independent
+    owns: [skill-platform]
+
+plannedProductsWithoutRepository:
+  - update-agent
+  - hardware-driver-manager
+  - kernel-manager
+  - recovery-diagnostics
+
+creationRule: "Create a repository only when code, tests, an owner, a release contract, and a migration source exist."
