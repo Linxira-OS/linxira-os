@@ -1,5 +1,5 @@
 schemaVersion: 1
-updated: "2026-07-20"
+updated: "2026-07-21"
 organization: "Linxira-OS"
 
 repositories:
@@ -20,7 +20,32 @@ repositories:
     owns: [transaction-planning, confirmation, privileged-apply, receipts]
   - name: linxira-package-center
     lifecycle: active
-    owns: [package-center-ui, installed-state-presentation, gaming-setup-workflow]
+    owns: [package-center-ui, installed-state-presentation]
+  - name: linxira-component-manager
+    lifecycle: active
+    owns: [component-manager-ui, capability-state-presentation]
+  - name: linxira-gaming-manager
+    lifecycle: active
+    owns: [gaming-library, compatibility-launch, user-backup]
+  - name: linxira-update
+    lifecycle: active
+    owns: [system-update, update-status, update-tray]
+  - name: linxira-completion-agent
+    lifecycle: active
+    owns: [first-online-plan-presentation, completion-state, transaction-delegation]
+  - name: linxira-chwd-detector
+    lifecycle: active
+    upstream: "CachyOS/chwd@1.23.0"
+    owns: [read-only-hardware-detection, hardware-fact-contract]
+  - name: linxira-hardware-driver-manager
+    lifecycle: active
+    owns: [driver-policy-ui, kernel-dkms-report, driver-plan]
+  - name: linxira-kernel-manager
+    lifecycle: active
+    owns: [kernel-policy-ui, boot-state-report, kernel-plan]
+  - name: linxira-recovery-diagnostics
+    lifecycle: active
+    owns: [recovery-readiness, repair-plan, private-support-bundle]
   - name: linxira-welcome
     lifecycle: active
     owns: [welcome-status, lifecycle-guidance, fixed-tool-routing]
@@ -61,9 +86,6 @@ repositories:
     owns: [skill-platform]
 
 plannedProductsWithoutRepository:
-  - update-agent
-  - hardware-driver-manager
-  - kernel-manager
-  - recovery-diagnostics
+  - system-transaction-service
 
 creationRule: "Create a repository only when code, tests, an owner, a release contract, and a migration source exist."

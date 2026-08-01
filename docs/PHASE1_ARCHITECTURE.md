@@ -115,6 +115,52 @@ Lutris、JupyterLab。每个应用是持久选择的最小单位。
 预设是选择快捷方式，例如“推荐游戏环境”或“数据科学工作站”。应用预设后，用户
 仍然可以取消其中任意非必需子项。预设绝不能成为不可拆分的安装单位。
 
+### 3.7.1 权威选择器交互
+
+安装器与 Package Center 的应用和能力选择器必须采用 Windows“启用或关闭 Windows
+功能”式的可展开三态树，而不是平铺 checklist、卡片网格、普通下拉框或多个互不关联的
+弹窗：
+
+- 分类和能力是可展开/折叠的文件夹式父节点。
+- 应用、必需项和推荐项是可单独选择的子节点。
+- 空复选框表示没有选择任何可用子项。
+- 勾选复选框表示全部可用子项已选择。
+- 实心或半选复选框表示只选择了部分子项。
+- 点击父节点复选框会选择或取消其全部可用子项；修改子项后父节点状态立即重新计算。
+- 必需子项可以显示为锁定选中，但必须解释为什么不能取消。
+- 树必须支持键盘导航、滚动、展开状态保持和可访问名称。
+- 选择器下方或旁边显示当前节点说明；确认前显示依赖、冲突、下载大小、来源和许可证。
+
+Firefox 是默认选中的普通应用；其他普通应用默认不选。预设只能批量改变树中子项的
+选择状态，不能隐藏或取代这棵树。
+
+### 3.7.2 两个产品面， 一个共享选择器
+
+Linxira 必须明确区分两个用户软件：
+
+1. **官方推荐软件管理器**：管理按类别整理的单个官方/审查软件，例如浏览器、Office、
+   图形、媒体、开发和系统工具。它在安装器中提供安装前选择，安装后由同一产品继续显示
+   可用、已安装、待处理和收据状态。
+2. **合集包/组件包管理器**：管理按工作领域组织的能力合集和运行时方案，例如运行时管理、
+   生物信息学、科学计算和开发工具。合集可以自动纳入 Python、Conda、编译器、运行库和
+   配置步骤，但展开后用户仍能取消任何非必需项。
+
+安装器同时提供这两个产品面的选择入口；安装器和安装后的软件使用同一个目录数据、树形
+选择模型、计划/确认/结果/收据协议，但不能把单个软件和合集组件伪装成同一种目录对象。
+
+### 3.7.3 类别选择策略
+
+每个树节点必须声明自己的选择策略，而不是由 UI 猜测：
+
+- `multi`：子项可以任意多选，父节点可以全选；开发工具和科学工具通常使用此策略。
+- `exclusive`：子项只能选一个；例如桌面环境或互斥的系统实现。
+- `bounded`：子项可以多选但有明确上限；例如 Office 类别可以允许选择一个或两个实现，
+  不能一次安装全部实现。
+- `preset`：合集只负责批量预选其成员，安装对象仍是展开后的单个软件/能力节点。
+
+互斥或有上限的类别必须在树中显示规则和当前计数，并在计划阶段再次由 catalog/backend
+验证；UI 不能通过简单地把父节点全选来绕过限制。
+
 ### 3.8 Hardware Profile / 硬件配置方案
 
 基于硬件 ID、内核和系统状态生成的驱动/固件计划。它由硬件工具管理，不属于应用树。
@@ -325,6 +371,10 @@ sources
 
 ## 8. Package Center 和安装后管理
 
+普通软件候选、合集组件候选、嵌套合集约束和 provider 边界的详细基线见
+`docs/SOFTWARE_COMPONENT_CATALOG_DESIGN.md`。该文件中的候选项只有在完成来源、许可、
+安全和 VM 验收后才能变为 `reviewed`，不能把候选清单直接当作 ISO 安装清单。
+
 Package Center 使用与安装器相同的树和稳定 ID，但展示实际状态：
 
 - available
@@ -383,12 +433,39 @@ Live Home 主操作是安装。Installed Home 显示健康状态、首次完成�
 
 ### 10.2 Package Center
 
-负责 curated applications、可选能力、游戏软件选择和 transaction history。
+负责官方推荐软件的安装后管理：按类别展示普通 application，显示当前安装状态，
+生成安装计划、显示依赖/来源/许可证/进度、保存收据和历史。它不负责 SSH、源配置、
+运行时诊断或合集能力事务。
+
+Package Center 不得继续使用平铺 `kdialog --checklist`。其选择页必须是 Windows
+“启用或关闭 Windows 功能”式的可展开三态树。
+
+### 10.2.1 Bundle/Component Manager
+
+这是与 Package Center 分开的第二个 UI 软件，负责领域合集、能力和运行时组件：
+
+- 运行时管理、Python/Conda 环境基础；
+- 生物信息学、科学计算、GIS、科研写作；
+- 开发工具链、容器和游戏兼容基础。
+
+合集展开后必须能看到必需、推荐和可选子项。用户可以选择整个合集，也可以只选择其中
+几个模块；合集只是批量预选，不是不可拆分的安装对象。最终计划和收据必须保存展开后的
+叶子组件及配置动作，而不是只保存一个 profile ID。
+
+Package Center 和 Bundle/Component Manager 使用同一套 catalog、状态、三态树、计划、
+确认、进度和收据协议，但显示不同的对象类型，不能合并成一个普通应用列表。
 
 ### 10.3 Config CLI / Config Hub
 
-负责快速状态、doctor、运行时、源、SSH、网络、firewall 和受控服务配置。
-不负责应用、桌面、内核和驱动包事务。
+只在终端运行，负责快速状态、doctor、运行时、源、SSH、SSH key、网络、firewall 和
+受控服务配置；也负责查询 catalog 元数据、包来源、已安装/未安装状态和合集状态。
+软件、组件和合集状态命令默认只显示已安装、部分安装、外部安装、待处理、漂移和需重启
+项目；使用 `--all` 或明确的状态过滤才显示未安装项目。
+
+CLI 不负责应用、合集、桌面、内核、驱动或完整系统更新的安装/移除事务。发现未安装项时，
+CLI 只能给出固定的 Package Center 或 Bundle/Component Manager 跳转入口。所有需要特权的
+系统配置通过固定 operation ID 和共享 backend 计划执行，CLI 不直接调用 pacman、sudo、
+pkexec 或任意 shell 命令。
 
 ### 10.4 Hardware and Driver Manager
 
@@ -488,7 +565,12 @@ Nix。每个变更计划显示旧值、新值、信任、TLS、签名影响、sc
 
 ### 13.1 Gaming Setup
 
-它是一个可展开、可调整的快速工作流，不是不可拆分合集：
+Gaming Manager 是计划中的第四个独立 UI 软件。Package Center 安装 Steam、Lutris 等
+普通前端，Component Manager 安装系统级 Wine、UMU、MangoHud、GameMode、Gamescope 和
+32 位运行基础；Gaming Manager 管理用户级 runner、prefix、DXVK/VKD3D、社区适配、启动
+配置、游戏库和备份。
+
+它提供可展开、可调整的快速工作流，不是不可拆分合集：
 
 ```text
 游戏平台
@@ -519,8 +601,9 @@ Nix。每个变更计划显示旧值、新值、信任、TLS、签名影响、sc
 
 ### 13.2 Wine/Proton
 
-系统包由 Package Center 管理；Wine prefix、runner、DXVK、游戏数据属于用户，不由 root
-backend 修改。Proton 优先由 Steam 管理。
+系统应用包由 Package Center 管理，系统兼容组件由 Component Manager 管理；Wine prefix、
+runner、DXVK/VKD3D、游戏数据属于用户，由 Gaming Manager 的用户级事务和收据管理，
+不由 root backend 直接修改。Proton 优先由 Steam 管理。
 
 ### 13.3 Drivers
 
@@ -667,7 +750,9 @@ Driver Manager，但驱动事务由 Driver Manager 独立执行。
 5. 离线安装后，首次联网必须先显示计划并获得一次确认，再补齐 Linxira 核心系统工具。
 6. Package Center Phase 1 暂不开放 remove；完成 ownership ledger、依赖归属和漂移检测
    后再开放。
-7. Gaming Setup 是 Package Center 中的专用 workflow，不开发独立 GUI。
+7. 2026-07-20 后续决定取代早期结论：Gaming Manager 作为计划中的第四个独立 UI 软件；
+   Package Center 和 Component Manager 只提供其系统应用与兼容组件，不拥有 prefix、runner、
+   社区适配或游戏数据。
 8. Hardware/Driver Manager 先审计并封装 CHWD，由 Linxira 提供 UI、策略、计划、确认、
    验证和收据边界，不从头重写硬件 profile 引擎。
 
