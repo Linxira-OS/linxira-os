@@ -33,7 +33,7 @@ repositories:
   - name: linxira-completion-agent
     lifecycle: active
     owns: [first-online-plan-presentation, completion-state, transaction-delegation]
-  - name: linxira-chwd-detector
+  - name: linxira-hwd-detector
     lifecycle: active
     upstream: "CachyOS/chwd@1.23.0"
     owns: [read-only-hardware-detection, hardware-fact-contract]
