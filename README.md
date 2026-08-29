@@ -81,6 +81,11 @@ conflict with the Phase 1 architecture, the Phase 1 document is authoritative.
 - [linxira-catalog](https://github.com/Linxira-OS/linxira-catalog)
 - [linxira-hooks](https://github.com/Linxira-OS/linxira-hooks)
 
+### Bioinformatics
+
+- [linxira-bio-sdk](https://github.com/Linxira-OS/linxira-bio-sdk) — 本地优先生物信息学分析平台，50+ 分析能力
+  - [官网](https://linxira-os.github.io/bio-sdk/) · [Wiki](https://github.com/Linxira-OS/linxira-bio-sdk/wiki)
+
 ### Independent AI Projects
 
 - [extendai-lab-Studio](https://github.com/Linxira-OS/extendai-lab-Studio)
