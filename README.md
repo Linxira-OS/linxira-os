@@ -3,25 +3,6 @@
 > **Name notice:** Linxira OS is unrelated to LinxISA, linx-isa, or any custom
 > instruction-set architecture project. It is an independent Linux distribution.
 
-## 中文
-
-**Linxira OS 是一个面向科研与 AI 工作流的 Linux 工作站发行版。**
-
-当前基线直接使用 Arch Linux 官方仓库的软件包与工具链。Live ISO、正式目标系统和
-首次联网完成是三个独立交付范围。Phase 1 正式支持 Plasma 与 GNOME，离线 ISO 只
-保证 Plasma 的完整安装闭包；GNOME 必须完成联网安装和独立验收后才开放。
-
-目标系统使用 Btrfs、Timeshift、`linux` 与 `linux-lts`。桌面、系统能力、科学能力和
-应用拥有不同数据语义；应用与能力按树形叶子独立选择，分类和 preset 不是不可拆分
-安装单位。Welcome 只负责状态和路由，Package Center、Config CLI、驱动、内核、
-更新和恢复工具分别维护自己的产品边界。
-
-RC17 因真实写盘安装中的 `crc32c-intel` initramfs 故障被拒绝，不是发布候选。故障
-修复已通过 clean-built Calamares 包和 disposable Btrfs 双内核 target 验证；新的 ISO
-仍须完成写盘、首次启动、Package Center、恢复和发布 provenance 验收。
-
-## English
-
 **Linxira OS is a Linux workstation distribution for scientific and AI
 workflows.**
 
@@ -83,8 +64,8 @@ conflict with the Phase 1 architecture, the Phase 1 document is authoritative.
 
 ### Bioinformatics
 
-- [linxira-bio-sdk](https://github.com/Linxira-OS/linxira-bio-sdk) — 本地优先生物信息学分析平台，50+ 分析能力
-  - [官网](https://linxira-os.github.io/bio-sdk/) · [Wiki](https://github.com/Linxira-OS/linxira-bio-sdk/wiki)
+- [linxira-bio-sdk](https://github.com/Linxira-OS/linxira-bio-sdk) — Local-first bioinformatics analysis platform with 50+ analysis capabilities
+  - [Website](https://linxira-os.github.io/bio-sdk/) · [Wiki](https://github.com/Linxira-OS/linxira-bio-sdk/wiki)
 
 ### Independent AI Projects
 
@@ -98,3 +79,22 @@ conflict with the Phase 1 architecture, the Phase 1 document is authoritative.
 Linxira OS is built directly on Arch Linux and is an independent project not
 affiliated with or endorsed by Arch Linux. Linxira OS is not affiliated with or
 endorsed by CachyOS.
+
+---
+
+## 简体中文
+
+**Linxira OS 是一个面向科研与 AI 工作流的 Linux 工作站发行版。**
+
+当前基线直接使用 Arch Linux 官方仓库的软件包与工具链。Live ISO、正式目标系统和
+首次联网完成是三个独立交付范围。Phase 1 正式支持 Plasma 与 GNOME，离线 ISO 只
+保证 Plasma 的完整安装闭包；GNOME 必须完成联网安装和独立验收后才开放。
+
+目标系统使用 Btrfs、Timeshift、`linux` 与 `linux-lts`。桌面、系统能力、科学能力和
+应用拥有不同数据语义；应用与能力按树形叶子独立选择，分类和 preset 不是不可拆分
+安装单位。Welcome 只负责状态和路由，Package Center、Config CLI、驱动、内核、
+更新和恢复工具分别维护自己的产品边界。
+
+RC17 因真实写盘安装中的 `crc32c-intel` initramfs 故障被拒绝，不是发布候选。故障
+修复已通过 clean-built Calamares 包和 disposable Btrfs 双内核 target 验证；新的 ISO
+仍须完成写盘、首次启动、Package Center、恢复和发布 provenance 验收。
