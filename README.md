@@ -8,9 +8,9 @@ workflows.**
 
 The baseline uses packages and tooling from the official Arch Linux repositories.
 Live media, the installed target, and first-online completion are separate
-delivery scopes. Phase 1 supports Plasma and GNOME, while offline installation
-guarantees only the complete Plasma closure. GNOME remains hidden until its
-online installation and independent acceptance pass.
+delivery scopes. Phase 1 supports Plasma and COSMIC, while offline installation
+guarantees the complete Plasma and COSMIC closures. GNOME remains hidden until
+its online installation and independent acceptance pass.
 
 The target uses Btrfs, Timeshift, `linux`, and `linux-lts`. Desktops, system
 capabilities, scientific capabilities, and applications have separate data
@@ -18,10 +18,10 @@ semantics. Category and preset nodes never become indivisible installation
 units. Welcome provides status and routing; Package Center, Config CLI, driver,
 kernel, update, and recovery products keep independent ownership boundaries.
 
-RC17 was rejected after a real disk installation exposed an initramfs failure.
-The diagnosed fix has passed clean Calamares packaging and disposable Btrfs
-dual-kernel target tests. A new ISO still requires disk, first-boot, Package
-Center, recovery, and release-provenance acceptance.
+RC17 was rejected after a real disk installation exposed an initramfs failure,
+and remains frozen as a rejected diagnostic. The diagnosed fix passed clean
+Calamares packaging and disposable Btrfs dual-kernel target tests; the r-series
+rebuild that followed is the current published image (r17, 2026-09-30).
 
 ## Product Architecture
 
@@ -87,14 +87,14 @@ endorsed by CachyOS.
 **Linxira OS 是一个面向科研与 AI 工作流的 Linux 工作站发行版。**
 
 当前基线直接使用 Arch Linux 官方仓库的软件包与工具链。Live ISO、正式目标系统和
-首次联网完成是三个独立交付范围。Phase 1 正式支持 Plasma 与 GNOME，离线 ISO 只
-保证 Plasma 的完整安装闭包；GNOME 必须完成联网安装和独立验收后才开放。
+首次联网完成是三个独立交付范围。Phase 1 正式支持 Plasma 与 COSMIC，离线 ISO
+保证 Plasma 与 COSMIC 的完整安装闭包；GNOME 必须完成联网安装和独立验收后才开放。
 
 目标系统使用 Btrfs、Timeshift、`linux` 与 `linux-lts`。桌面、系统能力、科学能力和
 应用拥有不同数据语义；应用与能力按树形叶子独立选择，分类和 preset 不是不可拆分
 安装单位。Welcome 只负责状态和路由，Package Center、Config CLI、驱动、内核、
 更新和恢复工具分别维护自己的产品边界。
 
-RC17 因真实写盘安装中的 `crc32c-intel` initramfs 故障被拒绝，不是发布候选。故障
-修复已通过 clean-built Calamares 包和 disposable Btrfs 双内核 target 验证；新的 ISO
-仍须完成写盘、首次启动、Package Center、恢复和发布 provenance 验收。
+RC17 因真实写盘安装中的 `crc32c-intel` initramfs 故障被拒绝，并冻结为 rejected
+diagnostic。故障修复已通过 clean-built Calamares 包和 disposable Btrfs 双内核 target
+验证；其后重建的 r 系列即为当前发布镜像（r17，2026-09-30）。

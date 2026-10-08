@@ -1,5 +1,5 @@
 schemaVersion: 1
-updated: "2026-07-21"
+updated: "2026-10-08"
 organization: "Linxira-OS"
 
 repositories:
@@ -12,6 +12,12 @@ repositories:
   - name: packages
     lifecycle: active
     owns: [pkgbuilds, package-ci, signed-repository-publication]
+  - name: linxira-packages
+    lifecycle: active
+    owns: [package-repository-hosting, repository-metadata]
+  - name: linxira-keys
+    lifecycle: active
+    owns: [signing-keys, keyring-distribution]
   - name: linxira-catalog
     lifecycle: active
     owns: [catalog-schema, applications, capabilities, presets, desktop-metadata]
@@ -64,6 +70,9 @@ repositories:
   - name: Linxira-OS.github.io
     lifecycle: active
     owns: [public-website, publication-endpoint]
+  - name: linxira-wsl
+    lifecycle: active
+    owns: [wsl-distribution-image, wsl-rootfs-build]
   - name: linxira-hello
     lifecycle: deprecated
     supersededBy: linxira-welcome
