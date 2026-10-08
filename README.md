@@ -21,7 +21,8 @@ kernel, update, and recovery products keep independent ownership boundaries.
 RC17 was rejected after a real disk installation exposed an initramfs failure,
 and remains frozen as a rejected diagnostic. The diagnosed fix passed clean
 Calamares packaging and disposable Btrfs dual-kernel target tests; the r-series
-rebuild that followed is the current published image (r17, 2026-09-30).
+rebuild that followed is the current downloadable test image (r17, 2026-09-30);
+no official release has been announced yet.
 
 ## Product Architecture
 
@@ -97,4 +98,4 @@ endorsed by CachyOS.
 
 RC17 因真实写盘安装中的 `crc32c-intel` initramfs 故障被拒绝，并冻结为 rejected
 diagnostic。故障修复已通过 clean-built Calamares 包和 disposable Btrfs 双内核 target
-验证；其后重建的 r 系列即为当前发布镜像（r17，2026-09-30）。
+验证；其后重建的 r 系列即为当前对外提供的测试镜像（r17，2026-09-30），尚未对外宣称正式版。

@@ -45,10 +45,15 @@
 
 ### Release
 
+> Status: every image built so far (including r17 / 2026-09-30) is a **test build**;
+> no official release has been announced, so the items below stay unchecked.
+> r17's build-time evidence is no longer available and will not be reconstructed.
+
 - [ ] Publish direct-Arch architecture and installation documentation
 - [ ] Publish ISO, package manifest, checksums, and signatures
 - [ ] Publish known limitations and rollback procedure
 - [ ] Promote the first validated Arch package cohort
+- [ ] Emit release-manifest evidence as part of the build (Arch/Linxira package-cohort manifests, `[linxira]` repository-database hashes, SBOM, and firmware-boot / disk-install / dual-kernel / first-boot / Package Center / recovery acceptance records), starting with the next build
 
 ## Milestone 2: Scientific Workstation Profiles
 
