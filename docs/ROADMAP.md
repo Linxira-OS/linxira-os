@@ -1,5 +1,33 @@
 # Linxira OS Roadmap
 
+## What we are building, and why
+
+Linxira OS is a Linux workstation distribution for scientific and AI workflows,
+built directly on the official Arch Linux base with no downstream binary
+repository. The target is a workstation a researcher can install offline, audit
+after the fact, and keep under their own control: Btrfs + Timeshift snapshots,
+two official kernels (`linux`, `linux-lts`), Plasma and COSMIC as supported
+desktops, and first-party products (Welcome, Package Center, Config CLI,
+driver/kernel managers, update, recovery) that each own a single capability.
+
+It is built this way because scientific and AI work depends on a trustworthy,
+reproducible supply chain. A workstation assembled from an opaque mix of
+repositories — or one that cannot state exactly which packages it shipped — is
+not something a lab can rely on. That is why the design insists on an explicit
+pinned package cohort, an offline installation closure, and separated
+privilege / policy / UI ownership.
+
+## Why the release standard exists
+
+Every image built so far (including r17 / 2026-09-30) is a **test build**; no
+official release has been announced. Before any image may be called a release it
+must be able to prove what it is: its source commits, package cohort, build
+environment, SBOM, and acceptance evidence (firmware boot, disk install, both
+kernels, first boot, Package Center, recovery). `releases/` and
+`manifest.schema.json` define that proof. It is not a build gate but an
+after-the-fact audit and reproducibility record, enforced from the next build
+onward; r17's build-time evidence is gone and will not be reconstructed.
+
 ## Milestone 1: Direct-Arch Installer Baseline
 
 ### Architecture
@@ -45,9 +73,8 @@
 
 ### Release
 
-> Status: every image built so far (including r17 / 2026-09-30) is a **test build**;
-> no official release has been announced, so the items below stay unchecked.
-> r17's build-time evidence is no longer available and will not be reconstructed.
+> See "Why the release standard exists" above. Items stay unchecked until an
+> image passes the acceptance gates and its manifest is recorded.
 
 - [ ] Publish direct-Arch architecture and installation documentation
 - [ ] Publish ISO, package manifest, checksums, and signatures
