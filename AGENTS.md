@@ -93,21 +93,28 @@
 - **绝不提交** `.keys/`、密钥、凭据、`.env`
 - 破坏性操作(`reset --hard`、`push --force`、批量删除)先确认,不擅自执行
 
-## 7. 各仓库 `AGENTS.md` 现状
+## 7. 各仓库 `AGENTS.md` 现状(按档位)
 
-**已携带(已推送云端)**:
+各仓 `AGENTS.md` 按档位编写,均引用本总纲与 `linxira-os/docs/RELEASE_STANDARD.md`,不重复通用条款:
 
-| 仓库 | 说明 |
-|---|---|
-| `linxira-bio-sdk` | 技能路由 + 仓库规则 + 执行安全 + 校验命令 |
-| `linxira-skills` | 技能布局 + 阅读纪律 + 运行时边界 |
-| `Linxira-OS.github.io` | 官网仓 agent 约定 |
-| `linxira-zeta` | 根 + `editor/`、`python/robomp/`、`web-ui/` 子级 |
+- **S 档(治理与发布核心)**:`linxira-os`、`linxira-wiki`、`linxira-iso-direct`、`packages`、`linxira-packages`、`linxira-keys`、`iso-release`
+- **A 档(系统源仓)**:catalog、components、component-manager、config-hub、completion-agent、gaming-manager、hardware-driver-manager、hwd-detector、kernel-manager、package-center、recovery-diagnostics、update、welcome、hooks、artwork、rate-mirrors
+- **B 档(内容/配置仓)**:fish-config、zsh-config、gnome-settings、kde-settings、hypr-noctalia、niri-noctalia、mangowc-dms、settings、wallpapers、plymouth-theme、wsl
+- **已有独立规范(保留,未按档位重写)**:`linxira-bio-sdk`、`linxira-skills`、`Linxira-OS.github.io`、`linxira-zeta`
+- **C 档(不写)**:`linxira-calamares`(外部上游)、`org-github`(组织级配置)
 
-另有 `packages/docs/AGENT-GUIDELINES.md`(packages 仓的中文操作规范)。
+`packages` 另有 `packages/docs/AGENT-GUIDELINES.md`(该仓中文操作规范),其 `AGENTS.md` 引用之。
 
-**其余子仓库暂缺 `AGENTS.md`** —— 新建仓库或首次接管某仓时,应补一份根 `AGENTS.md`,
-至少写清:仓库职责、目录布局、构建/校验命令、禁区与提权方式。
+### 已归档(GitHub read-only)的仓库
+
+以下仓库在 GitHub 上**已归档(archived,只读)**,`AGENTS.md` 只能**本地提交、无法推送云端**;
+需推送时先在 GitHub 取消归档:
+
+`linxira-rate-mirrors`、`linxira-fish-config`、`linxira-zsh-config`、`linxira-gnome-settings`、
+`linxira-kde-settings`、`linxira-hypr-noctalia`、`linxira-niri-noctalia`、`linxira-mangowc-dms`、
+`linxira-settings`、`linxira-wallpapers`。
+
+`iso-release` 为 GitCode LFS 仓,云端推送另行处理,不随本工作区 GitHub 流程走。
 
 ## 8. 新建子仓库检查清单
 
