@@ -13,8 +13,11 @@
 3. `HANDOVER.md` —— 工作交接与挂账清单(读「工作区拓扑」「挂账清单」)
 4. `linxira-os/governance/repositories.yaml` —— 仓库归属与 lifecycle 的**唯一权威**
 5. `linxira-os/README.md` + `linxira-os/docs/ROADMAP.md` —— 我们在开发什么、为什么、发布规范化
+6. `linxira-os/docs/RELEASE_STANDARD.md` —— **发布/测试规范**(测试版 vs 正式版、验收门、发布禁令)
 
 不要凭记忆回答"某功能归哪个仓库",一律查 `repositories.yaml`。
+各子仓库的 `AGENTS.md` 按档位编写(S 治理发布核心 / A 系统源仓 / B 内容仓 / C 外部上游),
+均引用本总纲与发布规范,不重复。
 
 ## 1. 工作区拓扑
 
