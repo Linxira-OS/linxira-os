@@ -1,5 +1,5 @@
 schemaVersion: 1
-updated: "2026-10-08"
+updated: "2026-10-10"
 organization: "Linxira-OS"
 
 repositories:
@@ -52,6 +52,9 @@ repositories:
   - name: linxira-recovery-diagnostics
     lifecycle: active
     owns: [recovery-readiness, repair-plan, private-support-bundle]
+  - name: linxira-crash-watch
+    lifecycle: active
+    owns: [crash-diagnosis, crash-window, debug-workspace]
   - name: linxira-welcome
     lifecycle: active
     owns: [welcome-status, lifecycle-guidance, fixed-tool-routing]

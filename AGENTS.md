@@ -98,7 +98,7 @@
 各仓 `AGENTS.md` 按档位编写,均引用本总纲与 `linxira-os/docs/RELEASE_STANDARD.md`,不重复通用条款:
 
 - **S 档(治理与发布核心)**:`linxira-os`、`linxira-wiki`、`linxira-iso-direct`、`packages`、`linxira-packages`、`linxira-keys`、`iso-release`
-- **A 档(系统源仓)**:catalog、components、component-manager、config-hub、completion-agent、gaming-manager、hardware-driver-manager、hwd-detector、kernel-manager、package-center、recovery-diagnostics、update、welcome、hooks、artwork、rate-mirrors
+- **A 档(系统源仓)**:catalog、components、component-manager、config-hub、completion-agent、gaming-manager、hardware-driver-manager、hwd-detector、kernel-manager、package-center、recovery-diagnostics、crash-watch、update、welcome、hooks、artwork、rate-mirrors
 - **B 档(内容/配置仓)**:fish-config、zsh-config、gnome-settings、kde-settings、hypr-noctalia、niri-noctalia、mangowc-dms、settings、wallpapers、plymouth-theme、wsl
 - **已有独立规范(保留,未按档位重写)**:`linxira-bio-sdk`、`linxira-skills`、`Linxira-OS.github.io`、`linxira-zeta`
 - **C 档(不写)**:`linxira-calamares`(外部上游)、`org-github`(组织级配置)
