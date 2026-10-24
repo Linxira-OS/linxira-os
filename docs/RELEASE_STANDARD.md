@@ -44,6 +44,11 @@
 - 每张**正式发布**镜像配一份不可变 JSON,按 `releases/manifest.schema.json` 校验。
 - 必须绑定的证据:源码提交、Arch/Linxira 包清单、`[linxira]` repo 数据库哈希、
   ISO SHA-256、SBOM、构建者身份、各验收门结果。
+- **许可证据(2026-10-24 起强制)**:镜像内 `/usr/share/doc/linxira/` 必须含
+  `THIRD-PARTY-NOTICES.md`、`SOURCE-OFFER`、`license-manifest.json` 三件套,
+  由 `packages/scripts/generate-notices.py` 在构建期从 pacman 数据库生成;
+  manifest 的 `notices` / `sourceOffer` / `licenseManifest` 三个 artifact 字段
+  绑定其路径与 SHA-256。任何 Linxira 包缺 `/usr/share/licenses/<包名>/` 即为构建缺陷。
 - `acceptance: rejected-diagnostic` 的记录可保留,但不作为 release candidate。
 - **从下一次构建起**,构建过程随构建一并产出这些证据;已被拒绝或已丢失的历史构建
   **不回溯补建**。
