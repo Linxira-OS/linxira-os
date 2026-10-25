@@ -59,6 +59,9 @@ onward; r17's build-time evidence is gone and will not be reconstructed.
 
 ### Verification
 
+> 全部验收都能在 QEMU 内完成(SeaBIOS / OVMF 两种固件、装到虚拟盘、双内核启动),
+> 不需要真机。显卡只由驱动管理链路负责生成安装/配置步骤, 不作为发布门。
+
 - [x] QEMU BIOS menu boot for RC7
 - [x] QEMU UEFI menu boot for RC7
 - [ ] Complete BIOS write-to-disk installation and first boot
@@ -68,7 +71,7 @@ onward; r17's build-time evidence is gone and will not be reconstructed.
 - [ ] Timeshift GUI create and restore
 - [ ] Live-ISO recovery restore
 - [ ] grub-btrfs snapshot discovery and documented recovery behavior
-- [ ] NVIDIA DKMS validation on both kernels
+- [ ] Hardware driver flow: driver manager produces correct, copyable install/configure commands (我们只做配置链路, 不做显卡硬件验证)
 - [ ] Package signature and installed-file integrity checks
 
 ### Release

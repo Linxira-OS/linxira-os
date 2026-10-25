@@ -39,6 +39,9 @@
 
 对应 `docs/ROADMAP.md` 的 `Verification` 与 `Release` 段;未全部勾选前,不得称 release。
 
+以上全部可在 QEMU 内完成(SeaBIOS / OVMF、装到虚拟盘),不依赖真机或特定显卡;显卡驱动只由
+驱动管理链路负责生成安装步骤,不是发布门。
+
 ## 4. Release manifest(发布档案)
 
 - 每张**正式发布**镜像配一份不可变 JSON,按 `releases/manifest.schema.json` 校验。
