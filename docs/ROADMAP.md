@@ -1,119 +1,77 @@
 # Linxira OS Roadmap
 
-## What we are building, and why
+只保留通往正式版的路线。与发布无关的事项放在最后，不占用发布排期。
 
-Linxira OS is a Linux workstation distribution for scientific and AI workflows,
-built directly on the official Arch Linux base with no downstream binary
-repository. The target is a workstation a researcher can install offline, audit
-after the fact, and keep under their own control: Btrfs + Timeshift snapshots,
-two official kernels (`linux`, `linux-lts`), Plasma and COSMIC as supported
-desktops, and first-party products (Welcome, Package Center, Config CLI,
-driver/kernel managers, update, recovery) that each own a single capability.
+## 目标
 
-It is built this way because scientific and AI work depends on a trustworthy,
-reproducible supply chain. A workstation assembled from an opaque mix of
-repositories — or one that cannot state exactly which packages it shipped — is
-not something a lab can rely on. That is why the design insists on an explicit
-pinned package cohort, an offline installation closure, and separated
-privilege / policy / UI ownership.
+发布一个可安装的桌面 ISO：Arch 官方包为基线，加上我们自己的系统组件（含 Zeta 完整版），
+双内核（`linux` / `linux-lts`），Btrfs + Timeshift 快照，首次启动即可用。
 
-## Why the release standard exists
+正式版的定义以 [`RELEASE_STANDARD.md`](RELEASE_STANDARD.md) 为准：7 个验收门全部通过，
+并且每个发布的 ISO 有一份可校验的 release manifest。
 
-Every image built so far (including r17 / 2026-09-30) is a **test build**; no
-official release has been announced. Before any image may be called a release it
-must be able to prove what it is: its source commits, package cohort, build
-environment, SBOM, and acceptance evidence (firmware boot, disk install, both
-kernels, first boot, Package Center, recovery). `releases/` and
-`manifest.schema.json` define that proof. It is not a build gate but an
-after-the-fact audit and reproducibility record, enforced from the next build
-onward; r17's build-time evidence is gone and will not be reconstructed.
+## 阶段
 
-## Milestone 1: Direct-Arch Installer Baseline
+### P1 — 构建可复现
 
-### Architecture
+完成标准：用当前包集从干净环境构建 ISO，产物同时包含许可三件套
+（第三方声明、源码提供、许可清单）和 release manifest 草稿。
 
-- [x] Select direct Arch Linux package and tooling base
-- [x] Remove CachyOS binary repository dependency from the target design
-- [x] Select Timeshift as the first-release snapshot frontend
-- [x] Define two-kernel profiles using official Arch kernels
-- [x] Replace the rejected restricted session with a complete Plasma Live session
+- [x] 自研包链路（CI 构建、签名、同步到 `[linxira]`）
+- [x] Zeta 完整版进入独立仓（`[linxira-zeta]`，签名可校验）
+- [x] 目标系统默认安装 Zeta，并登记附加仓以便随 `update` 升级
+- [x] 构建期生成许可三件套（WSL 镜像已验证）
+- [ ] ISO 用新包集实跑一遍（最后一次 ISO 是 2026-09-30 的 r17）
+- [ ] 构建期生成 release manifest（字段见 `releases/manifest.schema.json`）
 
-### Package Pipeline
+### P2 — 验收（QEMU，SeaBIOS + OVMF，虚拟盘）
 
-- [x] Package pinned upstream Calamares in a clean Arch build root
-- [ ] Sign Calamares and Linxira integration packages
-- [ ] Build a signed offline installation repository
-- [ ] Record exact Arch Linux Archive cohort date and package manifest
-- [ ] Verify clean-room package rebuilds
-
-### Archiso And Installer
-
-- [x] Create a clean direct-Arch Archiso profile
-- [x] Implement the complete Plasma Live account and session
-- [x] Autostart Welcome and provide manual Calamares launchers
-- [x] Implement package-based offline target installation
-- [x] Implement the documented Timeshift-compatible Btrfs subvolumes
-- [ ] Configure GRUB, Timeshift, grub-btrfsd, and initial snapshot
-- [ ] Add Standard and Responsive desktop kernel profiles
-- [x] Remove every CachyOS repository, package, service, and branding dependency
+完成标准：7 个门每项都有一条带时间、结果、日志位置的记录，写入 manifest。
 
 ### Verification
 
-> 全部验收都能在 QEMU 内完成(SeaBIOS / OVMF 两种固件、装到虚拟盘、双内核启动),
-> 不需要真机。显卡只由驱动管理链路负责生成安装/配置步骤, 不作为发布门。
+- [x] 菜单引导 BIOS / UEFI（RC7，需随新 ISO 重跑）
+- [ ] 门 1 固件引导：新 ISO 在 BIOS 与 UEFI 下都能进入安装器
+- [ ] 门 2 写盘安装：BIOS 与 UEFI 各装一次，普通 Btrfs 与加密 Btrfs 各一次
+- [ ] 门 3 双内核：`linux` 与 `linux-lts` 都能引导，initramfs 正常
+- [ ] 门 4 首次启动：装好的系统进入桌面，`update` 可执行
+- [ ] 门 5 Package Center：装一个包、卸一个包，事务完整
+- [ ] 门 6 恢复：Timeshift 建快照并还原；live 镜像能救援；GRUB 能列出快照
+- [ ] 门 7 完整性：包签名校验通过，已安装文件与包清单一致
 
-- [x] QEMU BIOS menu boot for RC7
-- [x] QEMU UEFI menu boot for RC7
-- [ ] Complete BIOS write-to-disk installation and first boot
-- [ ] Complete UEFI write-to-disk installation and first boot
-- [ ] Encrypted and unencrypted Btrfs installation
-- [ ] Boot both selected kernels
-- [ ] Timeshift GUI create and restore
-- [ ] Live-ISO recovery restore
-- [ ] grub-btrfs snapshot discovery and documented recovery behavior
-- [ ] Hardware driver flow: driver manager produces correct, copyable install/configure commands (我们只做配置链路, 不做显卡硬件验证)
-- [ ] Package signature and installed-file integrity checks
+### P3 — 修复与复跑
+
+完成标准：P2 中的缺陷全部修复，并对受影响的门重跑。不允许带着已知失败的门发布。
+
+### P4 — 发布
+
+完成标准：下列文件全部公开，且与 manifest 中记录的哈希一致。
 
 ### Release
 
-> See "Why the release standard exists" above. Items stay unchecked until an
-> image passes the acceptance gates and its manifest is recorded.
+- [ ] ISO、SHA-256 校验和、签名
+- [ ] release manifest（源码提交、包清单、仓库索引哈希、ISO 哈希、许可清单、构建者、各门结果）
+- [ ] 安装说明（简短，以安装器实际界面为准）
+- [ ] 已知限制与回滚说明（回滚 = Timeshift 快照还原）
 
-- [ ] Publish direct-Arch architecture and installation documentation
-- [ ] Publish ISO, package manifest, checksums, and signatures
-- [ ] Publish known limitations and rollback procedure
-- [ ] Promote the first validated Arch package cohort
-- [ ] Emit release-manifest evidence as part of the build (Arch/Linxira package-cohort manifests, `[linxira]` repository-database hashes, SBOM, and firmware-boot / disk-install / dual-kernel / first-boot / Package Center / recovery acceptance records), starting with the next build
+## 明确不做（发布前）
 
-## Milestone 2: Scientific Workstation Profiles
+- 显卡硬件验证。驱动管理只负责生成可复制的安装/配置步骤，不做硬件兼容认证。
+- Zeta 索引历史保留与版本回滚。升级失败时重装同一版本即可。
+- 包中心里的"附加源"概念或目录条目。Zeta 是系统组件，由系统默认带上，不需要额外的 UI 层。
+- WSL 作为正式发布物。WSL 镜像保留为开发环境，Zeta 在 WSL 中通过 npm 安装。
+- AppImage 分发。系统内的 Zeta 只走包管理器，才能随 `update` 升级。
+- 重型 SBOM 工具链。用构建期生成的许可清单（列出每个包的版本与许可）作为物料清单。
 
-- [ ] Miniforge and bioconda profile (channel configuration is available in
-      Config Hub; bootstrap and environment manifest remain pending)
-- [ ] Apptainer and BioContainers profile
-- [ ] Development toolchain profile
-- [ ] Versioned `linxira env` manifests for rootless Podman/Distrobox environments
-- [ ] Signed OCI digest and Apptainer SIF verification
-- [ ] Optional offline environment packs separate from the base ISO
-- [ ] CUDA-enabled container validation matrix
-- [ ] AI-operation pre-change snapshot interface
-- [x] Config Hub source/channel integration baseline
+## 发布后再考虑
 
-## Milestone 3: Measured Performance Options
+以下内容有价值，但与发布无关，不进入当前排期。
 
-- [ ] Establish representative bioinformatics and numerical benchmarks
-- [ ] Compare `linux` and `linux-zen` on workstation workloads
-- [ ] Pilot ALHP `x86-64-v3` on internal canary hardware
-- [ ] Evaluate locally built kernel and package candidates
-- [ ] Promote only optimizations with reproducible material gains
+- 科研工作站档位：Miniforge / bioconda、Apptainer、开发工具链、环境清单、离线包、CUDA 验证矩阵。
+- AI 操作前快照接口（与 Zeta 的集成，需先确定权限模型）。
+- 性能：基准集、`linux` 与 `linux-zen` 对比、ALHP v3 试点。只有可复现且明显的收益才会晋级。
 
-## Deferred
+## 暂缓（不在本路线内）
 
-- Secure Boot
-- Custom Linxira kernel
-- Complete self-hosted Arch binary mirror and archive
-- Snapper coexistence
-- Niri edition
-- WSL and server editions
-- Additional desktop environments
-- ARM support
-- Distribution-wide `x86-64-v4` packages
+安全启动、自研内核、自建完整 Arch 镜像站、与 Snapper 共存、Niri 版本、服务器版、
+额外桌面环境、ARM、全局 `x86-64-v4` 包。
