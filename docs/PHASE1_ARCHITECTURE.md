@@ -741,19 +741,20 @@ Driver Manager，但驱动事务由 Driver Manager 独立执行。
 
 以下决策由用户于 2026-07-20 确认：
 
-1. Phase 1 正式支持 Plasma 和 GNOME；GNOME 必须完成独立 bundle、真实截图、安装和
-   首次登录验收后才可在发布版本中开放。
+1. Phase 1 只提供两个桌面：Plasma（默认）与 COSMIC（同为离线附带的一等桌面）。
+   其余桌面不提供，也不进入路线图。
 2. 系统能力与科学能力拆成两个安装页；两页都使用可展开树、叶子独立选择和父节点
    三态选择。
 3. Firefox 默认预选，其他普通应用默认不选。
-4. 离线 ISO 只保证 Plasma 的完整安装闭包；GNOME 安装需要联网。
+4. 离线 ISO 保证 Plasma 与 COSMIC 的完整安装闭包。
 5. 离线安装后，首次联网必须先显示计划并获得一次确认，再补齐 Linxira 核心系统工具。
 6. Package Center Phase 1 暂不开放 remove；完成 ownership ledger、依赖归属和漂移检测
    后再开放。
-7. 2026-07-20 后续决定取代早期结论：Gaming Manager 作为计划中的第四个独立 UI 软件；
+7. 无桌面安装为正式交付范围：完整工具集版，以及与原生 Arch 体量相当的超精简版。
+8. 2026-07-20 后续决定取代早期结论：Gaming Manager 作为计划中的第四个独立 UI 软件；
    Package Center 和 Component Manager 只提供其系统应用与兼容组件，不拥有 prefix、runner、
    社区适配或游戏数据。
-8. Hardware/Driver Manager 先审计并封装 CHWD，由 Linxira 提供 UI、策略、计划、确认、
+9. Hardware/Driver Manager 先审计并封装 CHWD，由 Linxira 提供 UI、策略、计划、确认、
    验证和收据边界，不从头重写硬件 profile 引擎。
 
 这些决策解除 P1 实现冻结。P2 及以后仍必须按第 16 节顺序推进，不能跳过可安装基础。
