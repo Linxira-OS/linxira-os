@@ -712,8 +712,8 @@ Driver Manager，但驱动事务由 Driver Manager 独立执行。
 
 ### P5：桌面矩阵
 
-- Plasma 完整接受。
-- 每个额外桌面单独完成 bundle、截图、VM 和 first-login acceptance 后再开放。
+- Plasma 与 COSMIC 完整接受。
+- 只保留这两个桌面；不设额外桌面版本。
 
 ### P6：游戏和第三方生态
 

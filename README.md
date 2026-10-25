@@ -8,9 +8,10 @@ workflows.**
 
 The baseline uses packages and tooling from the official Arch Linux repositories.
 Live media, the installed target, and first-online completion are separate
-delivery scopes. Phase 1 supports Plasma and COSMIC, while offline installation
-guarantees the complete Plasma and COSMIC closures. GNOME remains hidden until
-its online installation and independent acceptance pass.
+delivery scopes. Phase 1 ships exactly two desktops — Plasma and COSMIC — plus a
+headless install (full toolset, or a minimal baseline sized like plain Arch).
+Offline installation guarantees the complete Plasma and COSMIC closures. No
+additional desktop editions are planned.
 
 The target uses Btrfs, Timeshift, `linux`, and `linux-lts`. Desktops, system
 capabilities, scientific capabilities, and applications have separate data
@@ -88,8 +89,9 @@ endorsed by CachyOS.
 **Linxira OS 是一个面向科研与 AI 工作流的 Linux 工作站发行版。**
 
 当前基线直接使用 Arch Linux 官方仓库的软件包与工具链。Live ISO、正式目标系统和
-首次联网完成是三个独立交付范围。Phase 1 正式支持 Plasma 与 COSMIC，离线 ISO
-保证 Plasma 与 COSMIC 的完整安装闭包；GNOME 必须完成联网安装和独立验收后才开放。
+首次联网完成是三个独立交付范围。第一阶段只提供两个桌面 —— Plasma 与 COSMIC ——
+以及无桌面安装（完整工具集，或与 Arch 基线等量的超精简版）；离线 ISO 保证
+Plasma 与 COSMIC 的完整安装闭包。不计划增加其他桌面版本。
 
 目标系统使用 Btrfs、Timeshift、`linux` 与 `linux-lts`。桌面、系统能力、科学能力和
 应用拥有不同数据语义；应用与能力按树形叶子独立选择，分类和 preset 不是不可拆分

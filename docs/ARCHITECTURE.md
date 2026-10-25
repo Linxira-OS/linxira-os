@@ -165,14 +165,15 @@ ExtendAI Lab Studio, ExtendAI Lab CLI, Linxira Pulse, Linxira Skills, and the
 upstream OpenCode clone are independent projects. They are not rewritten or
 versioned as part of the operating-system base migration.
 
-## 11. First-Release Non-Goals
+## 11. Out Of Scope (Removed, Not Deferred)
 
+- No custom or optimized kernel — the official Arch `linux` and `linux-lts` only
+- No `x86-64-v3/v4` package replacement (no ALHP-style repackaging)
+- No ARM support
 - No CachyOS binary repositories or redistributed CachyOS packages
-- No custom Linxira kernel
 - No self-hosted replacement for the full Arch repositories
 - No Secure Boot guarantee
 - No Snapper policy
-- No online-only or minimal installer
-- No multiple desktop editions
+- Exactly two desktop editions (Plasma, COSMIC); no additional desktop editions
+- A headless install is supported: full toolset, or a minimal Arch-sized baseline
 - No AUR helper during installation
-- No distribution-wide `x86-64-v3/v4` package replacement
