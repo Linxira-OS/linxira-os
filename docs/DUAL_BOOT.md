@@ -135,3 +135,35 @@ Windows 自己的引导文件，剩余空间通常 50–60 MiB。
 | BIOS/legacy（无 ESP） | 跳过检查 |
 
 拒绝发生在写盘之前，不会出现“装到一半才失败”。我们**不缩放、不格式化**已存在的 ESP。
+
+## 10. 选盘与分区
+
+### 10.1 能选具体硬盘吗
+
+可以。Calamares 的「擦除磁盘」页会列出所有块设备（如 `/dev/nvme0n1`、`/dev/sda`），
+按容量与型号选择。默认预选改为「与 Windows 共存」，避免把第一项「擦除磁盘」当默认。
+
+### 10.2 怎么区分 USB 和真实 SSD
+
+Calamares 列表本身对 USB/内置盘区分不强，所以安装器在写盘前做硬校验：
+
+| 检查 | 依据 | 结果 |
+|---|---|---|
+| 目标盘是否可移动 | `/sys/block/<disk>/removable == 1` | 拒绝，提示型号 |
+| 目标盘是否就是 live 介质 | `findmnt /run/archiso/bootmnt` 的父盘与目标父盘相同 | 拒绝 |
+| 无法判定 | `findmnt` 不可用 | 放行（避免误伤） |
+
+错误信息会带上磁盘型号（`/sys/block/<disk>/device/model`），例如
+“`/dev/sda2` 挂在 USB DISK 3.0 上，系统不能安装到 U 盘/移动硬盘”。
+
+### 10.3 Linux 的分区策略
+
+Linux 不需要像 Windows 那样为“系统盘/数据盘”反复分区：所有路径最终挂到同一棵树。
+我们的默认就是**一块 btrfs 根分区 + 一个 ESP**，不单独分 `/home`，也不建 swap 分区
+（`userSwapChoices: [ none ]`）。这样：
+
+- 空间按需增长，不会出现“/home 满了但 / 空着”；
+- 快照（Timeshift）对整棵树生效，不需要跨分区协调。
+
+手动分区已开放（`allowManualPartitioning: true`）给高级用户，但不推荐拆得过细；
+即使手动分区，ESP 容量与可移动盘校验仍然生效。
