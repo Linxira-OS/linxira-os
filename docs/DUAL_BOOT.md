@@ -108,3 +108,30 @@ Ubuntu 现在的官方安装器**不再提供**从 Windows 内安装。
   引导链、签名与数据安全风险，且上游已证明不可持续。
 - 保留两条路径：**Live USB 安装（单盘/双盘）** 与 **WSL 镜像**（已发布）。
 - 若将来要做“Windows 内一键体验”，优先做 **WSL 发行版**，而不是 loop 双系统。
+
+## 9. ESP 容量：必须算，不能赌
+
+Windows 默认 ESP 只有 **100 MiB**（部分 OEM 128/260 MiB）。同一块 ESP 上还要放
+Windows 自己的引导文件，剩余空间通常 50–60 MiB。
+
+| 内容 | 占用 |
+|---|---|
+| Windows（bootmgfw.efi、字体、BCD 等） | 约 30–50 MiB |
+| GRUB（引导器 + 配置 + 字体，内核在 /boot 不在 ESP） | 约 10–15 MiB |
+| systemd-boot / rEFInd（内核 + initramfs 放进 ESP） | 每套约 120–180 MiB，双内核 250–350 MiB |
+
+因此：
+
+- **默认 GRUB** 可以装进 Windows 的 100 MiB ESP（前提是剩余 ≥ 32 MiB）。
+- **systemd-boot / rEFInd** 在 100 MiB ESP 上必然塞不下，必须专用大 ESP（≥900 MiB）。
+
+安装器已加硬门禁（`linxirapacstrap._efi_capacity_error`）：
+
+| 条件 | 结果 |
+|---|---|
+| ESP 总容量 < 64 MiB | 拒绝安装 |
+| 选 GRUB 且剩余 < 32 MiB | 拒绝安装，提示清理或扩容 |
+| 选 systemd-boot/rEFInd 且总容量 < 900 MiB 或剩余 < 512 MiB | 拒绝安装，建议改选 GRUB |
+| BIOS/legacy（无 ESP） | 跳过检查 |
+
+拒绝发生在写盘之前，不会出现“装到一半才失败”。我们**不缩放、不格式化**已存在的 ESP。
