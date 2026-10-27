@@ -175,5 +175,12 @@ versioned as part of the operating-system base migration.
 - No Secure Boot guarantee
 - No Snapper policy
 - Exactly two desktop editions (Plasma, COSMIC); no additional desktop editions
-- A headless install is supported: full toolset, or a minimal Arch-sized baseline
+- Headless (no desktop) installation is supported: full toolset, or a minimal
+  Arch-sized baseline. Unattended/CLI installation is not implemented; the
+  Calamares GUI remains the only installer.
+- Splitting the server profile package set (removing desktop-only GUI, fonts,
+  audio and browsers from the headless baseline) is deferred until at least one
+  year of release stability.
+- VM images, cloud images, and cloud-init variants are deferred. The ISO stays
+  the single large downloadable artifact.
 - No AUR helper during installation

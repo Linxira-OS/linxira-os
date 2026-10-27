@@ -70,3 +70,11 @@
 - 科研工作站档位：Miniforge / bioconda、Apptainer、开发工具链、环境清单、离线包、CUDA 验证矩阵。
 - AI 操作前快照接口（与 Zeta 的集成，需先确定权限模型）。
 - 性能：基准集、`linux` 与 `linux-zen` 对比、ALHP v3 试点。只有可复现且明显的收益才会晋级。
+- 服务器 profile 包拆分：把 GUI、字体、音频、浏览器从无桌面基线里移出。至少稳定一年后再动，
+  当前 `desktop-server` 保留完整基线；拆分还要同步改 `linxiravalidate` 的 profile 校验。
+- 无头安装器 / 自动安装：`linxira-install --config`、ISO `linxira.autoinstall`、
+  VM/cloud seed。当前只有 Calamares GUI；设计已调查，暂不排期。
+- VM 镜像与 cloud 变体：qcow2 / OCI / cloud-init。只有出现明确的自动化开 VM 需求再做，
+  且只做一个镜像，cloud-init 作为可选 datasource，不做 cloud/非 cloud 两份资产。
+- Welcome 数据驱动 System 页：读取 `capabilities.json` 的 `welcome` 元数据渲染入口；
+  当前 welcome 仍以应用目录为主，未接入。
