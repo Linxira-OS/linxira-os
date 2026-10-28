@@ -127,15 +127,9 @@ repositories:
     lifecycle: paused
     owns: [wallpaper-assets]
 
-  # 这两个不是「暂停」而是真的被取代：当前构建不再使用它们。
-  - name: linxira-calamares
-    lifecycle: deprecated
-    owns: [installer-upstream-fork]
-    upstream: https://github.com/CachyOS/cachyos-calamares
-  - name: linxira-rate-mirrors
-    lifecycle: deprecated
-    owns: [mirror-ranking]
-    upstream: archlinux/rate-mirrors
+  # 已删除(2026-10-28):linxira-calamares、linxira-rate-mirrors —— 确认被取代且无引用。
+  # 删除前状态:lifecycle deprecated,upstream 分别指向 CachyOS/cachyos-calamares
+  # 与 archlinux/rate-mirrors;当前构建使用 Arch 官方 calamares + iso-direct 内置品牌。
 
 plannedProductsWithoutRepository:
   - system-transaction-service
