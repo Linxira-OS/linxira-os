@@ -78,3 +78,8 @@
   且只做一个镜像，cloud-init 作为可选 datasource，不做 cloud/非 cloud 两份资产。
 - Welcome 数据驱动 System 页：读取 `capabilities.json` 的 `welcome` 元数据渲染入口；
   当前 welcome 仍以应用目录为主，未接入。
+- 国内可达的包镜像 / CDN：`linxira-packages` 由 GitHub Pages 提供，国内链路不稳定；
+  计划整仓镜像到国内可达的静态存储（Cloudflare R2 自定义域名或自建 Worker 代理），
+  pacman 配多 `Server` 做主备切换，签名校验保持 `Required`。zeta 的 release 资产体积大，
+  免费额度不够，等有预算时再评估自建 Cloudflare + 购买额度；GitHub 仍是唯一构建源，
+  镜像只做分发，不改变发布链。
