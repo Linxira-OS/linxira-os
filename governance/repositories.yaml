@@ -1,5 +1,5 @@
 schemaVersion: 1
-updated: "2026-10-10"
+updated: "2026-10-28"
 organization: "Linxira-OS"
 
 repositories:
@@ -96,6 +96,46 @@ repositories:
   - name: linxira-skills
     lifecycle: independent
     owns: [skill-platform]
+
+  # 归档不等于退休。以下 9 个是内容/配置文件仓：平时很少改，归档只为防误触。
+  # 需要改动时先在 GitHub 取消归档，改完可以再归档；任何时候都可以重新激活。
+  - name: linxira-fish-config
+    lifecycle: paused
+    owns: [fish-shell-configuration]
+  - name: linxira-zsh-config
+    lifecycle: paused
+    owns: [zsh-shell-configuration]
+  - name: linxira-gnome-settings
+    lifecycle: paused
+    owns: [gnome-desktop-defaults]
+  - name: linxira-kde-settings
+    lifecycle: paused
+    owns: [kde-plasma-defaults]
+  - name: linxira-hypr-noctalia
+    lifecycle: paused
+    owns: [hyprland-desktop-defaults]
+  - name: linxira-niri-noctalia
+    lifecycle: paused
+    owns: [niri-desktop-defaults]
+  - name: linxira-mangowc-dms
+    lifecycle: paused
+    owns: [mangowc-desktop-defaults]
+  - name: linxira-settings
+    lifecycle: paused
+    owns: [system-settings-defaults]
+  - name: linxira-wallpapers
+    lifecycle: paused
+    owns: [wallpaper-assets]
+
+  # 这两个不是「暂停」而是真的被取代：当前构建不再使用它们。
+  - name: linxira-calamares
+    lifecycle: deprecated
+    owns: [installer-upstream-fork]
+    upstream: https://github.com/CachyOS/cachyos-calamares
+  - name: linxira-rate-mirrors
+    lifecycle: deprecated
+    owns: [mirror-ranking]
+    upstream: archlinux/rate-mirrors
 
 plannedProductsWithoutRepository:
   - system-transaction-service

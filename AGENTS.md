@@ -105,16 +105,24 @@
 
 `packages` 另有 `packages/docs/AGENT-GUIDELINES.md`(该仓中文操作规范),其 `AGENTS.md` 引用之。
 
-### 已归档(GitHub read-only)的仓库
+### 归档仓库：只读不等于停更
 
-以下仓库在 GitHub 上**已归档(archived,只读)**,`AGENTS.md` 只能**本地提交、无法推送云端**;
-需推送时先在 GitHub 取消归档:
+归档(archived)在 GitHub 上表现为只读，目的是**防止误触**，不代表仓库已废弃：
 
-`linxira-rate-mirrors`、`linxira-fish-config`、`linxira-zsh-config`、`linxira-gnome-settings`、
-`linxira-kde-settings`、`linxira-hypr-noctalia`、`linxira-niri-noctalia`、`linxira-mangowc-dms`、
-`linxira-settings`、`linxira-wallpapers`。
+- 需要改动 → 先在 GitHub 取消归档，改完可以再归档；任何时候都能重新激活。
+- 只有**确认不再需要**的仓库才长期归档；确认无用才删除。删除与长期归档都要先在 `repositories.yaml` 登记理由。
+- 登记口径：临时暂停写 `lifecycle: paused`；已被取代写 `lifecycle: deprecated`，并在 `upstream` 或说明里指向替代者。
 
-`iso-release` 为 GitCode LFS 仓,云端推送另行处理,不随本工作区 GitHub 流程走。
+当前状态以 `linxira-os/governance/repositories.yaml` 为准：
+
+- `paused`（仅防误触）：`linxira-fish-config`、`linxira-zsh-config`、`linxira-gnome-settings`、
+  `linxira-kde-settings`、`linxira-hypr-noctalia`、`linxira-niri-noctalia`、`linxira-settings`、
+  `linxira-wallpapers`。
+- 已取消归档：`linxira-mangowc-dms`（2026-10-28，DMS 开始菜单 logo 修复）。
+- `deprecated`（真被取代）：`linxira-calamares`（改用 Arch 官方 calamares + iso-direct 内置品牌）、
+  `linxira-rate-mirrors`。
+
+`iso-release` 为 GitCode LFS 仓，云端推送另行处理，不随本工作区 GitHub 流程走。
 
 ## 8. 新建子仓库检查清单
 
