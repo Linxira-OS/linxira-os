@@ -1,7 +1,7 @@
 # 引导界面与多系统：现状、方案、决策
 
 > 目标：把“用哪个引导界面、能不能配置、装双 Linux 会怎样”讲清楚。
-> 结论先行：**默认 GRUB（可换 rEFInd / systemd-boot），不主动改固件启动顺序**。
+> 结论先行：**当前固定 GRUB；systemd-boot / rEFInd 暂时关闭选择，待快照菜单与多桌面方案一起完成**；不主动改固件启动顺序。
 
 ## 1. 现在一共有四个“引导/启动界面”
 
@@ -10,7 +10,7 @@
 | 1 | ISO GRUB（UEFI） | 镜像 `boot/grub/grub.cfg` | 深色背景 + 品牌 splash，菜单文字平铺 | 背景图、配色、超时、默认项 |
 | 2 | ISO syslinux（BIOS） | 镜像 `boot/syslinux/` | 640×480 splash（已换新标） | 背景图、菜单配色 |
 | 3 | 安装后 GRUB | 目标 `/etc/default/grub` + `/boot/grub` | r6 起带 splash + gfxterm 配色；之前是纯黑白 | `GRUB_THEME`/`GRUB_BACKGROUND`、配色、超时、默认项 |
-| 4 | 安装器可选引导器 | Calamares 引导器页 | GRUB（默认）/ systemd-boot / rEFInd | 用户安装时选择 |
+| 4 | 安装器引导器 | Calamares `bootloader` 模块 | **暂时固定 GRUB**；systemd-boot / rEFInd 选择已关闭 | 暂无可选项 |
 
 另外 Plymouth 只负责内核启动画面，不参与多系统选择。
 
@@ -31,7 +31,8 @@
    - 条目图标：`gnu-linux`、`windows`、`efi`、`reboot`、`shutdown`
    - 字体：沿用 `unicode.pf2`，避免中文缺字
 3. ISO 与安装后使用**同一套主题**，避免“镜像好看、装完变丑”。
-4. systemd-boot / rEFInd 保持可选，不默认；它们的美观与多系统能力各自独立。
+4. **systemd-boot / rEFInd 暂时关闭选择**，不默认、不暴露安装入口；待 Timeshift 快照菜单、
+   多桌面与 ESP 容量策略一起验证后再恢复。
 
 ## 4. 多系统：把所有情况列全
 

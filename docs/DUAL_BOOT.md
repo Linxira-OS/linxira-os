@@ -122,10 +122,11 @@ Windows 自己的引导文件，剩余空间通常 50–60 MiB。
 
 因此：
 
+- **当前安装器只提供 GRUB**；systemd-boot / rEFInd 的选择已暂时关闭，下面的容量规则保留给未来启用时。
 - **默认 GRUB** 可以装进 Windows 的 100 MiB ESP（前提是剩余 ≥ 32 MiB）。
 - **systemd-boot / rEFInd** 在 100 MiB ESP 上必然塞不下，必须专用大 ESP（≥900 MiB）。
 
-安装器已加硬门禁（`linxirapacstrap._efi_capacity_error`）：
+未来重新开放时，安装器仍有硬门禁（`linxirapacstrap._efi_capacity_error`）：
 
 | 条件 | 结果 |
 |---|---|
