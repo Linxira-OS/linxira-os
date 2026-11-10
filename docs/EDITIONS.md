@@ -1,6 +1,6 @@
 # Editions and build strategy
 
-Status: working document (2026-11-08). User-facing announcements:
+Status: working document (2026-11-10). User-facing announcements:
 [site](https://linxira-os.github.io/zh/blog/editions-and-build-strategy/) and
 [wiki](https://linxira-os.github.io/linxira-wiki/editions/).
 
@@ -25,9 +25,15 @@ The base owns the kernel, hardware enablement and base userland.
 | Edition | Base | Role | Cadence | Exit semantics | Status |
 |---|---|---|---|---|---|
 | Arch x86_64 | Arch Linux | Primary development machine; also inference | Rolling; monthly ISO snapshot (planned) | Remove `linxira-*`, return to vanilla Arch | Current |
-| Ubuntu x86_64 | Ubuntu 26.04 LTS | Inference, scientific computing, Chinese GPUs | LTS point releases + upstream security; HWE at point releases | Removable derivative layer, not rolling | Research |
-| Ubuntu ARM64 | Ubuntu 26.04 LTS | Inference on a hardware allowlist (DGX Spark, N1X, …) | Same as Ubuntu x86_64 | Same as Ubuntu x86_64 | Research |
-| NixOS | NixOS (VM / container) | Reproducible reference environment | Pinned flake, on-demand update | Configuration/flake only | Experimental, no SLA |
+| Ubuntu interim validation | 26.10, then 27.04 / 27.10 if needed | Validate apt backend, desktop, drivers, ARM allowlist | Follows Ubuntu interims; 9 months | Reimage; layer removable | Validation |
+| Ubuntu LTS (future) | 26.04 LTS or 28.04 LTS | Inference, scientific computing, Chinese GPUs | LTS point releases + upstream security | Removable derivative, not rolling | Pending |
+
+NixOS is **not** a product line. Zeta already provides Nix builds; use upstream
+Nix in a container or VM. Do not maintain a NixOS configuration, flake or
+distribution promise.
+
+Validation images are labelled “validation build, not long-term support, EOL
+date”, kept out of the support matrix and given no long-term promise.
 
 Non-goals:
 
@@ -35,17 +41,20 @@ Non-goals:
 - no third desktop beyond KDE (primary) and an optional COSMIC spin;
 - no home-grown kernel (v3 / CachyOS-derived) until a complete automation
   pipeline exists;
-- no sponsor-bundled software or “agent count” marketing.
+- no sponsor-bundled software or “agent count” marketing;
+- no NixOS product line.
 
 ## 3. Release cadence
 
 - **Arch**: monthly ISO snapshot of the rolling repository. The snapshot is a
   build artifact, not a new distribution release. Users keep rolling after
   install. Versioning: `YYYY.MM`.
-- **Ubuntu**: LTS point releases + upstream security updates. ISO refresh at
+- **Ubuntu interim**: validation images only, following 26.10 → 27.04 → 27.10.
+  Each has a 9-month lifetime and must be migrated or retired before EOL.
+- **Ubuntu LTS**: LTS point releases + upstream security updates. ISO refresh at
   point releases; no monthly ISO requirement. Versioning:
   `26.04.x-linxira.N`.
-- **NixOS**: flake pin; `flake update` on demand.
+- **NixOS**: not applicable.
 
 ### Ubuntu timeline (authoritative external facts)
 
@@ -56,9 +65,10 @@ Non-goals:
 - 27.10: October 2027; interim.
 - Next LTS: 28.04 (April 2028).
 
-There is no 2027 LTS. For LTS + kernel 7.3, target the 26.04.2 point release
-(2027-02-18), which should carry the 26.10 HWE kernel. Verify against the Ubuntu
-release notes before committing.
+There is no 2027 LTS. The decision point for moving to LTS is the 26.04.2 point
+release (2027-02-18): if HWE brings kernel 7.3 and hardware validation passes,
+switch the long-term baseline to 26.04 LTS. Otherwise continue validation on
+27.04 and retire 26.10 before 2027-07.
 
 ## 4. Repository and contract boundaries
 
@@ -78,7 +88,8 @@ Arch edition repositories:
 Ubuntu edition repositories (planned):
 
 - `linxira-ubuntu-packaging` — `debian/` packaging for all `linxira-*` sources;
-- `linxira-ubuntu-iso` — Ubuntu Base + live/autoinstall profile;
+- `linxira-ubuntu-iso` — Ubuntu Base + live/autoinstall profile (only if a full
+  image is needed; the interim phase may validate via a setup tool instead);
 - apt backend for `linxira-components` (package inside the components repo or a
   dedicated adapter repo);
 - vendor driver integration (Chinese GPU, DGX/N1X) as reviewed packages.
@@ -105,8 +116,8 @@ adapters and build profiles.
 - Ubuntu: unreviewed PPAs off by default; vendor debs are reviewed and
   republished in our signed repository; `curl | sh` is not recommended.
 - China: Arch mirrors are the strongest; Ubuntu has Chinese archive and ISO
-  mirrors; NixOS mirrors exist but are not guaranteed, so NixOS stays
-  experimental. Our ISOs are hosted on GitCode / domestic object storage.
+  mirrors; NixOS mirrors are not guaranteed, which is one reason it is not a
+  product line. Our ISOs are hosted on GitCode / domestic object storage.
 - DGX OS / NVIDIA downloads may be account- or network-gated; ARM support is an
   allowlist, not generic ARM.
 
